@@ -1,0 +1,25 @@
+{
+  "version": 1, "duration": 20.0, "fps": 30, "mode": ["M01", "M06"], "adapter": "blender", "timing": "estimated",
+  "geography": [{"scene": "kitchen", "line": [0, 0, 1, 0], "camera_side": -1}],
+  "beats": [
+    {"t": 0.0, "kind": "hook", "label": "a locked laptop opens by itself", "emotion": "curiosity", "intensity": 3},
+    {"t": 6.0, "kind": "development", "label": "she searches the logs", "emotion": "tension", "intensity": 3},
+    {"t": 12.4, "kind": "reveal", "label": "the key was public all along", "emotion": "realisation", "intensity": 5, "word": "public"},
+    {"t": 17.0, "kind": "resolution", "label": "she rotates the key", "emotion": "confidence", "intensity": 2}
+  ],
+  "shots": [
+    {"id": "S01", "t0": 0.0, "t1": 3.0, "type": "ECU", "subject": "laptop", "scene": "kitchen", "camera_xy": [0.6, -0.5], "lens_mm": 85, "dof": "moderate",
+     "camera": [{"move": "static"}]},
+    {"id": "S02", "t0": 3.0, "t1": 6.0, "type": "WS", "subject": "ana", "angle": "high", "scene": "kitchen", "camera_xy": [0.5, -3.0], "lens_mm": 24, "dof": "deep",
+     "camera": [{"t0": 3.0, "t1": 6.0, "move": "pull_out", "amount": "0.6 m", "ease": "inOutSine", "motivation": "REVEAL", "reason": "show she is alone with the machine at night"}]},
+    {"id": "S03", "t0": 6.0, "t1": 12.4, "type": "OTS", "subject": "screen", "angle": "eye", "scene": "kitchen", "camera_xy": [0.3, -1.0], "lens_mm": 50, "dof": "moderate",
+     "hold_for_text": [8.0, 11.0], "camera": [{"move": "static"}]},
+    {"id": "S04", "t0": 12.4, "t1": 17.0, "type": "MCU", "subject": "ana", "angle": "eye", "scene": "kitchen", "camera_xy": [0.2, -1.6], "lens_mm": 50, "dof": "shallow",
+     "hold_for_text": [16.4, 17.0],
+     "camera": [{"t0": 12.4, "t1": 15.2, "move": "push_in", "amount": "0.4 m", "ease": "inOutSine", "motivation": "APPROACH", "reason": "close the distance as she realises"}],
+     "focus": [{"t0": 15.2, "t1": 16.4, "from": "eyes", "to": "screen", "ease": "inOut", "attention": "the proof", "reason": "the screen holds the proof"}]},
+    {"id": "S05", "t0": 17.0, "t1": 20.0, "type": "ECU", "subject": "hands", "angle": "overhead", "scene": "kitchen", "camera_xy": [0.5, -0.2], "lens_mm": 85, "dof": "deep",
+     "camera": [{"move": "static"}], "transition_out": "cut to black"}
+  ],
+  "music_hints": [{"t": 12.4, "hint": "thin the bed 1 s before; soft impact on 'public'"}, {"t": 17.0, "hint": "resolve, warmer"}]
+}

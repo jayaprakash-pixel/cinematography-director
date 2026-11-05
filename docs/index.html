@@ -1,0 +1,582 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cinematography Director</title>
+<meta name="description" content="Cinematography Director: an open-source Claude Code skill that thinks like a Director of Photography. Story before spectacle.">
+<meta name="theme-color" content="#050507">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Crect width=%2232%22 height=%2232%22 rx=%226%22 fill=%22%23050507%22/%3E%3Ccircle cx=%2216%22 cy=%2216%22 r=%229%22 fill=%22none%22 stroke=%22%23ffb347%22 stroke-width=%223%22/%3E%3Ccircle cx=%2216%22 cy=%2216%22 r=%223%22 fill=%22%233fd0e0%22/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,600;1,9..144,300;1,9..144,500&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#050507; --bg2:#0b0b10; --panel:#101017; --line:#24242f; --text:#ece7dc; --muted:#9b97a6;
+  --tungsten:#ffb347; --cyan:#3fd0e0; --rec:#ff3b30; --violet:#7c5cff;
+  --bar:0vh; --serif:"Fraunces",Georgia,serif; --sans:Inter,system-ui,sans-serif; --mono:"JetBrains Mono",ui-monospace,monospace;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--text);font:16px/1.65 var(--sans);overflow-x:hidden}
+a{color:var(--cyan);text-decoration:none} a:hover{text-decoration:underline}
+code,pre,.mono{font-family:var(--mono)}
+::selection{background:var(--tungsten);color:#000}
+
+/* film grain + vignette over everything */
+.grain{position:fixed;inset:0;pointer-events:none;z-index:50;opacity:.07;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+  animation:grain 1s steps(6) infinite}
+@keyframes grain{0%{background-position:0 0}20%{background-position:-37px 21px}40%{background-position:23px -48px}60%{background-position:-51px 9px}80%{background-position:31px 40px}100%{background-position:0 0}}
+.vignette{position:fixed;inset:0;pointer-events:none;z-index:49;background:radial-gradient(ellipse at center,transparent 55%,rgba(0,0,0,.55) 100%)}
+
+/* slate intro */
+#slate{position:fixed;inset:0;z-index:100;display:grid;place-items:center;background:#000;transition:opacity .8s ease .2s}
+#slate.gone{opacity:0;pointer-events:none}
+.clap{width:min(420px,82vw);font-family:var(--mono);color:#eee}
+.clap .stick{height:46px;background:repeating-linear-gradient(-45deg,#eee 0 22px,#111 22px 44px);border-radius:6px 6px 0 0;transform-origin:4% 100%;transform:rotate(-24deg);transition:transform .22s cubic-bezier(.6,0,.9,.4)}
+.clap.snap .stick{transform:rotate(0)}
+.clap .board{border:2px solid #eee;border-top:0;padding:16px 18px;display:grid;grid-template-columns:1fr 1fr;gap:6px 18px;font-size:13px;background:#0b0b0b}
+.clap .board b{display:block;color:#888;font-weight:400;font-size:11px;letter-spacing:.12em}
+.clap .board .wide{grid-column:1/-1;font-size:18px}
+.skip{position:absolute;bottom:24px;right:24px;font:12px var(--mono);color:#777;background:none;border:1px solid #333;padding:6px 10px;border-radius:4px;cursor:pointer}
+
+/* letterbox bars */
+.bars::before,.bars::after{content:"";position:fixed;left:0;right:0;height:var(--bar);background:#000;z-index:40;pointer-events:none;transition:height 1.4s cubic-bezier(.7,0,.2,1)}
+.bars::before{top:0}.bars::after{bottom:0}
+
+/* HUD (viewfinder) */
+.hud{position:fixed;inset:14px;z-index:45;pointer-events:none;font:11px var(--mono);color:#ffffffb0;letter-spacing:.08em}
+.hud .c{position:absolute;width:22px;height:22px;border-color:#ffffff70;border-style:solid}
+.hud .tl{top:0;left:0;border-width:1px 0 0 1px}.hud .tr{top:0;right:0;border-width:1px 1px 0 0}
+.hud .bl{bottom:0;left:0;border-width:0 0 1px 1px}.hud .br{bottom:0;right:0;border-width:0 1px 1px 0}
+.hud .rec{position:absolute;top:4px;left:34px;display:flex;gap:8px;align-items:center}
+.hud .rec i{width:8px;height:8px;border-radius:50%;background:var(--rec);animation:blink 1.2s steps(2) infinite}
+@keyframes blink{50%{opacity:.15}}
+.hud .tc{position:absolute;top:4px;right:34px}
+.hud .meta{position:absolute;bottom:4px;left:34px}
+.hud .shot{position:absolute;bottom:4px;right:34px;color:var(--tungsten)}
+
+/* hero */
+.hero{position:relative;height:100vh;min-height:620px;overflow:hidden}
+.hero canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
+.hero::after{content:"";position:absolute;left:0;right:0;bottom:0;height:55%;background:linear-gradient(transparent,#050507e6 70%,var(--bg));z-index:1;pointer-events:none}
+.hero .title{position:absolute;left:0;right:0;bottom:16vh;text-align:center;padding:0 16px;z-index:2}
+.kicker{font:12px var(--mono);letter-spacing:.32em;color:var(--tungsten);text-transform:uppercase}
+h1{font-family:var(--serif);font-weight:300;font-size:clamp(46px,10vw,132px);line-height:.95;margin:.18em 0 .12em;letter-spacing:-.02em}
+h1 em{font-style:italic;font-weight:500;background:linear-gradient(90deg,var(--tungsten),#ffd9a0 40%,var(--cyan));-webkit-background-clip:text;background-clip:text;color:transparent}
+.tag{font-family:var(--serif);font-style:italic;font-size:clamp(18px,2.6vw,28px);color:#d9d2c3;margin:0}
+.scroll-cue{position:absolute;bottom:5vh;left:50%;transform:translateX(-50%);font:11px var(--mono);color:var(--muted);letter-spacing:.2em;z-index:2}
+.scroll-cue::after{content:"";display:block;width:1px;height:38px;margin:10px auto 0;background:linear-gradient(var(--tungsten),transparent);animation:cue 2s ease-in-out infinite}
+@keyframes cue{0%{transform:scaleY(0);transform-origin:top}50%{transform:scaleY(1);transform-origin:top}51%{transform-origin:bottom}100%{transform:scaleY(0);transform-origin:bottom}}
+
+/* sections */
+section{position:relative;padding:120px 16px}
+.wrap{max-width:1180px;margin:0 auto}
+.slate-strip{display:flex;flex-wrap:wrap;gap:8px 18px;align-items:center;font:11px var(--mono);letter-spacing:.14em;color:var(--muted);border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:10px 0;margin-bottom:48px;text-transform:uppercase}
+.slate-strip .n{color:var(--tungsten)}
+.slate-strip .why{color:var(--text);text-transform:none;letter-spacing:.02em;font-family:var(--serif);font-style:italic;font-size:15px}
+h2{font-family:var(--serif);font-weight:300;font-size:clamp(34px,5.4vw,68px);line-height:1.02;margin:0 0 22px;letter-spacing:-.015em}
+h2 em{font-style:italic;color:var(--tungsten)}
+.lede{font-size:clamp(17px,1.6vw,20px);color:#cfc9bb;max-width:760px}
+.reveal{opacity:0;transform:translateY(28px)}
+
+/* manifesto */
+.manifesto p.big{font-family:var(--serif);font-weight:300;font-size:clamp(28px,4.4vw,56px);line-height:1.15;max-width:1000px;margin:0}
+.manifesto .w{display:inline-block;opacity:.12;transition:opacity .4s}
+.manifesto .w.on{opacity:1}
+
+/* lab */
+.lab{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(0,1fr);gap:28px;align-items:stretch}
+.lab>*{min-width:0}
+.viewport{position:relative;border-radius:14px;overflow:hidden;background:#000;aspect-ratio:2.39/1;width:100%;align-self:center;border:1px solid var(--line)}
+.viewport canvas{width:100%;height:100%;display:block}
+.viewport .frame{position:absolute;inset:0;pointer-events:none}
+.viewport .frame::before{content:"";position:absolute;left:33.33%;right:33.33%;top:0;bottom:0;border-left:1px solid #ffffff14;border-right:1px solid #ffffff14}
+.viewport .frame::after{content:"";position:absolute;top:33.33%;bottom:33.33%;left:0;right:0;border-top:1px solid #ffffff14;border-bottom:1px solid #ffffff14}
+.viewport .readout{position:absolute;left:12px;bottom:10px;font:11px var(--mono);color:#fff;display:flex;gap:14px;flex-wrap:wrap;text-shadow:0 1px 2px #000}
+.viewport .readout b{color:var(--tungsten);font-weight:600}
+.controls{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:22px;display:flex;flex-direction:column;gap:18px}
+.seg{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;background:#000;padding:5px;border-radius:10px}
+.seg button{font:600 12px var(--mono);letter-spacing:.08em;color:var(--muted);background:transparent;border:0;border-radius:7px;padding:11px 4px;cursor:pointer}
+.seg button[aria-pressed=true]{background:var(--tungsten);color:#000}
+label.r{display:block;font:11px var(--mono);letter-spacing:.12em;color:var(--muted);text-transform:uppercase}
+input[type=range]{width:100%;accent-color:var(--tungsten);margin-top:8px}
+.explain{font-size:15px;color:#d6d0c2;min-height:110px}
+.explain b{color:var(--tungsten)}
+.rule{font-family:var(--serif);font-style:italic;font-size:19px;border-left:2px solid var(--cyan);padding-left:14px;color:#fff}
+
+/* film strip */
+.strip-outer{overflow:hidden}
+.strip{display:flex;gap:22px;width:max-content;padding:28px 0}
+.cell{width:min(420px,78vw);flex:none;background:#0d0d12;border:1px solid var(--line);border-radius:6px;position:relative;padding:44px 22px 22px}
+.cell::before,.cell::after{content:"";position:absolute;left:10px;right:10px;height:10px;background:repeating-linear-gradient(90deg,#24242f 0 14px,transparent 14px 28px)}
+.cell::before{top:12px}.cell::after{bottom:8px}
+.cell .num{font:600 12px var(--mono);color:var(--tungsten);letter-spacing:.18em}
+.cell h3{font-family:var(--serif);font-weight:400;font-size:30px;margin:6px 0 10px}
+.cell p{color:#c9c3b5;font-size:15px;margin:0 0 12px}
+.cell .out{font:12px var(--mono);color:var(--cyan)}
+.cell svg{width:100%;height:110px;display:block;margin:6px 0 14px}
+
+/* timeline */
+.tl-box{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:22px;overflow:hidden}
+.tl-head{display:flex;justify-content:space-between;font:12px var(--mono);color:var(--muted);margin-bottom:10px;flex-wrap:wrap;gap:8px}
+.tl-head .tcode{color:var(--tungsten);font-size:20px}
+#tlsvg{width:100%;height:auto;display:block}
+.legend{display:flex;flex-wrap:wrap;gap:16px;font:11px var(--mono);color:var(--muted);margin-top:12px}
+.legend i{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:6px;vertical-align:-1px}
+.tl-play{font:600 12px var(--mono);background:transparent;color:var(--text);border:1px solid var(--line);border-radius:999px;padding:7px 14px;cursor:pointer}
+
+/* modes */
+.modes{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.mode{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:16px;transition:transform .35s,border-color .35s;transform-style:preserve-3d}
+.mode:hover{border-color:#ffb34766}
+.mode .ar{background:linear-gradient(135deg,#1a1a24,#0c0c12);border:1px solid #2c2c39;border-radius:4px;margin:0 auto 14px;position:relative;overflow:hidden}
+.mode .ar::after{content:"";position:absolute;inset:0;background:radial-gradient(circle at 50% 60%,#ffb34733,transparent 60%)}
+.mode .id{font:600 11px var(--mono);color:var(--tungsten);letter-spacing:.14em}
+.mode h4{font-family:var(--serif);font-weight:400;font-size:22px;margin:4px 0 6px}
+.mode p{font-size:13.5px;color:var(--muted);margin:0}
+
+/* adapters */
+.matrix{width:100%;border-collapse:collapse;font-size:14px}
+.matrix th,.matrix td{padding:11px 10px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
+.matrix th{font:11px var(--mono);color:var(--muted);letter-spacing:.12em;text-transform:uppercase}
+.badge{display:inline-block;font:11px var(--mono);padding:2px 8px;border-radius:999px;border:1px solid}
+.b-full{color:#7be3a0;border-color:#7be3a055}.b-sim{color:var(--tungsten);border-color:#ffb34755}.b-no{color:#ff7a70;border-color:#ff7a7055}.b-hint{color:var(--cyan);border-color:#3fd0e055}
+.mscroll{overflow-x:auto}
+
+/* principles */
+.principles{columns:2;column-gap:40px;counter-reset:p;padding:0;margin:0;list-style:none}
+.principles li{break-inside:avoid;padding:10px 0 10px 46px;position:relative;border-bottom:1px solid var(--line);color:#d8d2c4}
+.principles li::before{counter-increment:p;content:counter(p,decimal-leading-zero);position:absolute;left:0;top:11px;font:12px var(--mono);color:var(--tungsten)}
+
+/* install */
+.cols{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:24px}
+.cols>*,.modes>*,.wrap>*{min-width:0}
+pre{background:#000;border:1px solid var(--line);border-radius:10px;padding:18px;overflow-x:auto;font-size:13.5px;line-height:1.6;color:#e8e3d6;margin:0}
+pre .c{color:#6f6b79}pre .k{color:var(--tungsten)}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:20px}
+.card h3{font-family:var(--serif);font-weight:400;margin:0 0 10px;font-size:24px}
+
+footer{padding:80px 16px 120px;text-align:center;color:var(--muted);font-size:14px;overflow:hidden}
+section{overflow-x:clip}.mode{overflow:hidden}
+footer .end{font-family:var(--serif);font-style:italic;font-size:clamp(36px,6vw,72px);color:var(--text);margin:0 0 18px}
+
+@media (max-width:900px){
+  .lab{grid-template-columns:minmax(0,1fr)}.modes{grid-template-columns:repeat(2,minmax(0,1fr))}.cols{grid-template-columns:minmax(0,1fr)}.principles{columns:1}
+  .viewport{aspect-ratio:16/10}
+}
+@media (max-width:520px){
+  section{padding:84px 16px}.modes{grid-template-columns:minmax(0,1fr)}.hud .meta,.hud .shot{display:none}
+}
+@media (prefers-reduced-motion:reduce){
+  .grain{animation:none}.reveal{opacity:1;transform:none}.manifesto .w{opacity:1}
+}
+</style>
+<script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"}}</script>
+</head>
+<body class="bars">
+<div class="grain" aria-hidden="true"></div><div class="vignette" aria-hidden="true"></div>
+
+<div id="slate" role="presentation">
+  <div class="clap" id="clap">
+    <div class="stick"></div>
+    <div class="board">
+      <div class="wide"><b>PRODUCTION</b>CINEMATOGRAPHY DIRECTOR</div>
+      <div><b>SCENE</b>01</div><div><b>TAKE</b>01</div>
+      <div><b>DOP</b>CLAUDE</div><div><b>ROLL</b>A</div>
+    </div>
+  </div>
+  <button class="skip" id="skip">skip ▸</button>
+</div>
+
+<div class="hud" aria-hidden="true">
+  <i class="c tl"></i><i class="c tr"></i><i class="c bl"></i><i class="c br"></i>
+  <div class="rec"><i></i>REC</div><div class="tc" id="tc">00:00:00:00</div>
+  <div class="meta" id="hudmeta">35MM · T2.8 · 1/48 · 3200K</div><div class="shot" id="hudshot">SHOT 01 · EWS · DOLLY ZOOM</div>
+</div>
+
+<header class="hero" data-shot="SHOT 01 · EWS · DOLLY ZOOM" data-meta="ANAMORPHIC FEEL · VERTIGO">
+  <canvas id="hero"></canvas>
+  <div class="title">
+    <div class="kicker">A Claude Code skill · open source</div>
+    <h1>Cinematography <em>Director</em></h1>
+    <p class="tag">Story before spectacle.</p>
+  </div>
+  <div class="scroll-cue">SCROLL</div>
+</header>
+
+<section class="manifesto" data-shot="SHOT 02 · MCU · STATIC" data-meta="50MM · DEEP FOCUS">
+  <div class="wrap">
+    <div class="slate-strip"><span class="n">Shot 02</span><span>MCU</span><span>50 mm</span><span>static</span><span class="why">The camera holds while you read. Rule one.</span></div>
+    <p class="big" id="manifesto">It reads your script like a Director of Photography. It decides what the audience sees, and what stays hidden. Every shot, lens, move and focus pull gets a reason, a time, and an instruction a real camera, Blender, or an AI video model can execute.</p>
+  </div>
+</section>
+
+<section id="lab" data-shot="SHOT 03 · INSERT · INTERACTIVE" data-meta="FOCAL 24-100MM · LIVE">
+  <div class="wrap">
+    <div class="slate-strip"><span class="n">Shot 03</span><span>Insert</span><span>interactive</span><span class="why">The one distinction this skill never blurs.</span></div>
+    <h2>A zoom is not a <em>dolly.</em></h2>
+    <p class="lede reveal">Same subject, same final size. Watch the pillars. A zoom changes the focal length: it crops the view, and the space stays flat. A dolly moves the camera: parallax appears, and you enter the space. A dolly zoom does both at once. The subject stays the same size while the world bends around it.</p>
+    <div class="lab reveal" style="margin-top:36px">
+      <div class="viewport"><canvas id="lab3d" aria-label="Interactive 3D comparison of zoom, dolly and dolly zoom"></canvas><div class="frame"></div>
+        <div class="readout"><span>FOCAL <b id="rf">35</b> mm</span><span>DISTANCE <b id="rd">6.0</b> m</span><span>SUBJECT <b id="rs">40</b>% of frame</span><span>FOCUS <b id="rfo">subject</b></span></div>
+      </div>
+      <div class="controls">
+        <div class="seg" role="group" aria-label="Camera technique">
+          <button data-m="zoom" aria-pressed="true">ZOOM</button><button data-m="dolly" aria-pressed="false">DOLLY</button><button data-m="dz" aria-pressed="false">DOLLY ZOOM</button>
+        </div>
+        <label class="r">Move <input id="amt" type="range" min="0" max="1" step="0.001" value="0"></label>
+        <label class="r">Rack focus · foreground ↔ subject ↔ background <input id="foc" type="range" min="0" max="1" step="0.001" value="0.5"></label>
+        <div class="explain" id="explain"></div>
+        <div class="rule">"Zoom = the act of looking. Dolly = entering the space."</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="engine" data-shot="SHOT 04 · TRACKING · LATERAL" data-meta="TRUCK RIGHT · FOLLOW">
+  <div class="wrap">
+    <div class="slate-strip"><span class="n">Shot 04</span><span>Tracking</span><span>truck right</span><span class="why">We follow the method, step by step.</span></div>
+    <h2>Eight steps from <em>script</em> to set.</h2>
+    <p class="lede reveal">Not a list of tips. A decision engine. Each step writes one part of the report, and a checker validates the result before anything is shot or rendered.</p>
+  </div>
+  <div class="strip-outer"><div class="strip" id="strip"></div></div>
+</section>
+
+<section id="timeline" data-shot="SHOT 05 · WIDE · STATIC" data-meta="TIMELINE · 00:20:00">
+  <div class="wrap">
+    <div class="slate-strip"><span class="n">Shot 05</span><span>Wide</span><span>static</span><span class="why">Every move gets a time, a motivation and a reason.</span></div>
+    <h2>Decisions on a <em>clock.</em></h2>
+    <p class="lede reveal">The output is a shared timeline: beats, camera, focus and the windows where the camera must hold for text. Music skills like Scorewright can read the same beats and hints. No dependency, one clock.</p>
+    <div class="tl-box reveal" style="margin-top:32px">
+      <div class="tl-head"><span class="tcode" id="tlc">00:00.0</span><span id="tlnow">S01 · ECU · static · hook</span><button class="tl-play" id="tlplay">▶ play</button></div>
+      <svg id="tlsvg" viewBox="0 0 1000 250" role="img" aria-label="Example shot timeline"></svg>
+      <div class="legend"><span><i style="background:#ece7dc33"></i>shots</span><span><i style="background:var(--tungsten)"></i>camera move</span><span><i style="background:var(--cyan)"></i>rack focus</span><span><i style="background:repeating-linear-gradient(45deg,#ff3b30 0 2px,transparent 2px 5px)"></i>hold for text</span><span><i style="background:var(--violet)"></i>beats</span><span><i style="background:#19c6b4"></i>music hint</span></div>
+    </div>
+  </div>
+</section>
+
+<section id="modes" data-shot="SHOT 06 · MONTAGE" data-meta="8 FORMATS · 8 FRAMES">
+  <div class="wrap">
+    <div class="slate-strip"><span class="n">Shot 06</span><span>Montage</span><span>8 frames</span><span class="why">One mind, eight formats. No single house look.</span></div>
+    <h2>It changes its eye for <em>the format.</em></h2>
+    <div class="modes" id="modegrid"></div>
+  </div>
+</section>
+
+<section id="adapters" data-shot="SHOT 07 · OTS · STATIC" data-meta="TARGETS · HONEST LIMITS">
+  <div class="wrap">
+    <div class="slate-strip"><span class="n">Shot 07</span><span>Over the shoulder</span><span>static</span><span class="why">It knows what each tool can really do.</span></div>
+    <h2>Physical, virtual, <em>generated.</em></h2>
+    <p class="lede reveal">Every instruction goes to one execution target. If the target cannot do it, the skill names a fallback instead of pretending.</p>
+    <div class="mscroll reveal" style="margin-top:28px"><table class="matrix">
+      <thead><tr><th>Instruction</th><th>Real camera</th><th>Blender</th><th>2D motion graphics</th><th>AI video</th><th>Edit only</th></tr></thead>
+      <tbody>
+        <tr><td>Dolly / push-in</td><td><span class="badge b-full">full</span></td><td><span class="badge b-full">full</span></td><td><span class="badge b-sim">parallax layers</span></td><td><span class="badge b-hint">prompt hint</span></td><td><span class="badge b-no">no · fallback</span></td></tr>
+        <tr><td>Zoom</td><td><span class="badge b-full">full</span></td><td><span class="badge b-full">full</span></td><td><span class="badge b-full">scale</span></td><td><span class="badge b-hint">prompt hint</span></td><td><span class="badge b-sim">within headroom</span></td></tr>
+        <tr><td>Rack focus</td><td><span class="badge b-full">full</span></td><td><span class="badge b-full">focus keys</span></td><td><span class="badge b-sim">animated blur</span></td><td><span class="badge b-hint">unreliable</span></td><td><span class="badge b-no">no · fallback</span></td></tr>
+        <tr><td>Dolly zoom</td><td><span class="badge b-full">practice</span></td><td><span class="badge b-full">f/d constant</span></td><td><span class="badge b-no">fake only</span></td><td><span class="badge b-hint">listed, varies</span></td><td><span class="badge b-no">no</span></td></tr>
+        <tr><td>Orbit / arc</td><td><span class="badge b-full">track / gimbal</span></td><td><span class="badge b-full">Track To</span></td><td><span class="badge b-no">render in 3D</span></td><td><span class="badge b-hint">preset / hint</span></td><td><span class="badge b-no">no</span></td></tr>
+      </tbody></table></div>
+  </div>
+</section>
+
+<section id="principles" data-shot="SHOT 08 · CU · PUSH-IN" data-meta="85MM · APPROACH">
+  <div class="wrap">
+    <div class="slate-strip"><span class="n">Shot 08</span><span>Close-up</span><span>slow push-in</span><span class="why">Motivation: APPROACH. This is the part that matters.</span></div>
+    <h2>Eighteen rules it <em>will not break.</em></h2>
+    <ol class="principles reveal" id="plist"></ol>
+  </div>
+</section>
+
+<section id="install" data-shot="SHOT 09 · MS · STATIC" data-meta="SETUP · 2 MIN">
+  <div class="wrap">
+    <div class="slate-strip"><span class="n">Shot 09</span><span>Medium</span><span>static</span><span class="why">Clear instructions need a still camera.</span></div>
+    <h2>Roll <em>camera.</em></h2>
+    <div class="cols reveal">
+      <div class="card"><h3>Install</h3>
+<pre><span class="c"># personal skill, all projects</span>
+git clone https://github.com/jayaprakash-pixel/cinematography-director \
+  ~/.claude/skills/cinematography-director
+
+<span class="c"># check the bundled validator</span>
+python ~/.claude/skills/cinematography-director/scripts/cdcheck.py selftest</pre></div>
+      <div class="card"><h3>Use</h3>
+<pre><span class="k">/cinematography-director</span> shot list for this 30 s Short:
+  script.md, word times in words.json, target: Blender
+
+<span class="k">/cinematography-director</span> AI video prompts for
+  this documentary scene, Veo, keep the reveal hidden
+
+"How should I film this travel day in Kyoto?"</pre></div>
+    </div>
+  </div>
+</section>
+
+<footer data-shot="SHOT 10 · EWS · PULL-OUT" data-meta="WITHDRAW · FADE OUT">
+  <p class="end">Cut.</p>
+  <p>Cinematography Director · Apache-2.0 · by Jayaprakash, White Noise Academy<br>
+  Built for Claude Code. Three.js and GSAP on this page. Research sources listed in <a href="https://github.com/jayaprakash-pixel/cinematography-director/blob/main/references/research_sources.md">references/research_sources.md</a>.</p>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script type="module">
+import * as THREE from "three";
+import { EffectComposer } from "three/addons/postprocessing/EffectComposer.js";
+import { RenderPass } from "three/addons/postprocessing/RenderPass.js";
+import { BokehPass } from "three/addons/postprocessing/BokehPass.js";
+import { OutputPass } from "three/addons/postprocessing/OutputPass.js";
+
+const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+gsap.registerPlugin(ScrollTrigger);
+
+/* ---------- slate intro ---------- */
+const slate = document.getElementById("slate");
+const openBars = () => document.documentElement.style.setProperty("--bar", innerWidth > 700 ? "6vh" : "3vh");
+const endSlate = () => { if (slate.classList.contains("gone")) return; slate.classList.add("gone"); openBars(); };
+document.getElementById("skip").onclick = endSlate;
+if (reduce || location.search.includes("noslate")) endSlate(); else {
+  setTimeout(() => document.getElementById("clap").classList.add("snap"), 900);
+  setTimeout(endSlate, 1500);
+}
+
+/* ---------- HUD timecode + shot label ---------- */
+const tc = document.getElementById("tc"), t0 = performance.now();
+setInterval(() => {
+  const s = (performance.now() - t0) / 1000, f = Math.floor((s % 1) * 24);
+  const p = n => String(n).padStart(2, "0");
+  tc.textContent = `${p(Math.floor(s / 3600))}:${p(Math.floor(s / 60) % 60)}:${p(Math.floor(s) % 60)}:${p(f)}`;
+}, 1000 / 24);
+document.querySelectorAll("[data-shot]").forEach(el => ScrollTrigger.create({
+  trigger: el, start: "top 55%", end: "bottom 55%",
+  onToggle: st => { if (st.isActive) { document.getElementById("hudshot").textContent = el.dataset.shot; document.getElementById("hudmeta").textContent = el.dataset.meta; } }
+}));
+
+/* ---------- shared set builder: corridor of pillars, subject, foreground posts ---------- */
+function buildSet(scene, warm = 0xffb347) {
+  scene.background = new THREE.Color(0x050507);
+  scene.fog = new THREE.Fog(0x050507, 8, 42);
+  scene.add(new THREE.HemisphereLight(0x8fb7ff, 0x0a0806, 0.35));
+  const key = new THREE.SpotLight(warm, 60, 30, Math.PI / 7, 0.5, 1.4); key.position.set(-3, 6, 4); key.target.position.set(0, 1, 0);
+  scene.add(key, key.target);
+  const rim = new THREE.PointLight(0x3fd0e0, 25, 12, 1.6); rim.position.set(2.5, 2.4, -2.5); scene.add(rim);
+  const floor = new THREE.Mesh(new THREE.PlaneGeometry(60, 80), new THREE.MeshStandardMaterial({ color: 0x0d0d12, roughness: .85, metalness: .1 }));
+  floor.rotation.x = -Math.PI / 2; floor.position.z = -20; scene.add(floor);
+  const grid = new THREE.GridHelper(60, 60, 0x2a2a36, 0x16161e); grid.position.set(0, .002, -20); scene.add(grid);
+  const pm = new THREE.MeshStandardMaterial({ color: 0x1b1b24, roughness: .6, metalness: .2 });
+  const pg = new THREE.BoxGeometry(.5, 6, .5);
+  for (let i = 0; i < 14; i++) for (const x of [-3.2, 3.2]) {
+    const p = new THREE.Mesh(pg, pm); p.position.set(x, 3, 2 - i * 3); scene.add(p);
+  }
+  // practical lamps on far pillars (warm dots)
+  const lampG = new THREE.SphereGeometry(.08, 12, 12), lampM = new THREE.MeshBasicMaterial({ color: warm });
+  for (let i = 1; i < 14; i += 2) for (const x of [-2.9, 2.9]) { const l = new THREE.Mesh(lampG, lampM); l.position.set(x, 2.6, 2 - i * 3); scene.add(l); }
+  // back wall with window grid
+  const wall = new THREE.Mesh(new THREE.PlaneGeometry(14, 10), new THREE.MeshBasicMaterial({ color: 0x0b0d14 })); wall.position.set(0, 5, -40); scene.add(wall);
+  const winM = new THREE.MeshBasicMaterial({ color: 0x3fd0e0, transparent: true, opacity: .35 });
+  for (let r = 0; r < 4; r++) for (let c = 0; c < 6; c++) { const w = new THREE.Mesh(new THREE.PlaneGeometry(1.1, 1.4), winM); w.position.set(-3.75 + c * 1.5, 1.6 + r * 2, -39.9); scene.add(w); }
+  // subject: stylised figure
+  const sm = new THREE.MeshStandardMaterial({ color: 0xece7dc, roughness: .45 });
+  const subject = new THREE.Group();
+  const body = new THREE.Mesh(new THREE.CapsuleGeometry(.42, 1.1, 8, 24), sm); body.position.y = 1.05;
+  const head = new THREE.Mesh(new THREE.SphereGeometry(.3, 32, 32), sm); head.position.y = 2.15;
+  subject.add(body, head); scene.add(subject);
+  // foreground posts (near camera) for parallax
+  const fg = new THREE.Group(); const fm = new THREE.MeshStandardMaterial({ color: 0x2b2118, roughness: .7 });
+  for (const x of [-1.6, 1.9]) { const f = new THREE.Mesh(new THREE.CylinderGeometry(.09, .09, 3.2, 16), fm); f.position.set(x, 1.6, 3.4); fg.add(f); }
+  scene.add(fg);
+  // volumetric-ish light cone
+  const cone = new THREE.Mesh(new THREE.ConeGeometry(2.4, 7, 48, 1, true), new THREE.MeshBasicMaterial({ color: warm, transparent: true, opacity: .045, side: THREE.DoubleSide, depthWrite: false, blending: THREE.AdditiveBlending }));
+  cone.position.set(-1.5, 3.2, 1.5); cone.rotation.z = -.42; scene.add(cone);
+  // dust
+  const N = 600, pos = new Float32Array(N * 3);
+  for (let i = 0; i < N; i++) { pos[i * 3] = (Math.random() - .5) * 8; pos[i * 3 + 1] = Math.random() * 6; pos[i * 3 + 2] = 4 - Math.random() * 30; }
+  const dg = new THREE.BufferGeometry(); dg.setAttribute("position", new THREE.BufferAttribute(pos, 3));
+  const dust = new THREE.Points(dg, new THREE.PointsMaterial({ color: 0xffe2b8, size: .025, transparent: true, opacity: .6, depthWrite: false }));
+  scene.add(dust);
+  return { subject, dust };
+}
+const SUBJ_H = 2.6;                       // subject height incl. head (m)
+const sensorH = 24;                        // full-frame height (mm)
+const fovFromF = f => 2 * Math.atan(sensorH / 2 / f) * 180 / Math.PI;
+const fFromFov = v => sensorH / 2 / Math.tan(v * Math.PI / 360);
+
+function makeRenderer(canvas) {
+  const r = new THREE.WebGLRenderer({ canvas, antialias: true, powerPreference: "high-performance" });
+  r.setPixelRatio(Math.min(devicePixelRatio, 2)); r.toneMapping = THREE.ACESFilmicToneMapping; r.toneMappingExposure = 1.15;
+  return r;
+}
+function onVisible(el, cb) { let v = false; new IntersectionObserver(e => { v = e[0].isIntersecting; cb(v); }).observe(el); return () => v; }
+
+/* ---------- HERO: slow dolly zoom loop (Vertigo) ---------- */
+{
+  const canvas = document.getElementById("hero"), r = makeRenderer(canvas), scene = new THREE.Scene();
+  const { dust } = buildSet(scene);
+  const cam = new THREE.PerspectiveCamera(35, 1, .1, 100);
+  const size = () => { const w = canvas.clientWidth, h = canvas.clientHeight; r.setSize(w, h, false); cam.aspect = w / h; cam.updateProjectionMatrix(); };
+  size(); addEventListener("resize", size);
+  let vis = true; onVisible(canvas, v => vis = v);
+  const k0 = 2 * 7 * Math.tan(fovFromF(35) * Math.PI / 360);  // frame height at d=7, f=35 -> held constant
+  const k = () => k0 * (cam.aspect < 1 ? 1.9 : 1);           // portrait: wider frame so the figure does not fill it
+  const loop = t => {
+    requestAnimationFrame(loop); if (!vis) return;
+    const s = reduce ? .3 : (Math.sin(t / 4200) * .5 + .5);
+    const d = 4.2 + s * 9;                                      // distance 4.2..13.2 m
+    cam.fov = 2 * Math.atan(k() / 2 / d) * 180 / Math.PI;       // subject size constant
+    const ly = cam.aspect < 1 ? .4 : 1.6;                       // portrait: figure sits higher, above the title
+    cam.position.set(Math.sin(t / 9000) * .25, 1.7, d); cam.lookAt(0, ly, 0); cam.updateProjectionMatrix();
+    dust.rotation.y = t / 60000;
+    r.render(scene, cam);
+  };
+  requestAnimationFrame(loop);
+}
+
+/* ---------- LAB: zoom vs dolly vs dolly zoom + rack focus ---------- */
+const EXPLAIN = {
+  zoom: "<b>ZOOM</b> · the camera stays at 6 m; the focal length goes from 35 mm to 70 mm. The subject doubles, and so does everything behind it: the pillars keep their relation. The view is a crop. Use it for the <b>act of looking</b>: noticing, surveillance, a documentary gaze.",
+  dolly: "<b>DOLLY</b> · the lens stays at 35 mm; the camera travels from 6 m to 3 m. The subject doubles, but the far pillars barely grow and the foreground posts rush past: parallax. Use it to <b>enter the space</b>: intimacy, realisation, presence.",
+  dz: "<b>DOLLY ZOOM</b> · the camera travels in while the lens widens, so the subject keeps its size and the corridor stretches behind it. Perception shifts. The skill allows it <b>once per video</b>, at most."
+};
+{
+  const canvas = document.getElementById("lab3d"), r = makeRenderer(canvas), scene = new THREE.Scene();
+  buildSet(scene);
+  const cam = new THREE.PerspectiveCamera(fovFromF(35), 2.39, .1, 100);
+  const composer = new EffectComposer(r);
+  composer.addPass(new RenderPass(scene, cam));
+  const bokeh = new BokehPass(scene, cam, { focus: 6, aperture: .006, maxblur: .012 });
+  composer.addPass(bokeh); composer.addPass(new OutputPass());
+  const size = () => { const w = canvas.clientWidth, h = canvas.clientHeight; r.setSize(w, h, false); composer.setSize(w, h); cam.aspect = w / h; cam.updateProjectionMatrix(); };
+  size(); addEventListener("resize", size);
+  let mode = "zoom", amt = 0, user = false, focusT = .5;
+  const amtEl = document.getElementById("amt"), focEl = document.getElementById("foc"), ex = document.getElementById("explain");
+  ex.innerHTML = EXPLAIN.zoom;
+  document.querySelectorAll(".seg button").forEach(b => b.onclick = () => {
+    mode = b.dataset.m; document.querySelectorAll(".seg button").forEach(x => x.setAttribute("aria-pressed", x === b)); ex.innerHTML = EXPLAIN[mode];
+  });
+  amtEl.addEventListener("input", () => { user = true; amt = +amtEl.value; });
+  focEl.addEventListener("input", () => { focusT = +focEl.value; });
+  let vis = false; onVisible(canvas, v => vis = v);
+  const rf = document.getElementById("rf"), rd = document.getElementById("rd"), rs = document.getElementById("rs"), rfo = document.getElementById("rfo");
+  const loop = t => {
+    requestAnimationFrame(loop); if (!vis) return;
+    if (!user && !reduce) { amt = .5 - .5 * Math.cos(t / 1600); amtEl.value = amt; }
+    let d, f;
+    if (mode === "zoom") { d = 6; f = 35 + 35 * amt; }
+    else if (mode === "dolly") { d = 6 - 3 * amt; f = 35; }
+    else { d = 6 - 3.6 * amt; f = 35 * d / 6; }               // f/d constant -> subject size constant
+    cam.fov = fovFromF(f); cam.position.set(0, 1.55, d); cam.lookAt(0, 1.45, -1); cam.updateProjectionMatrix();
+    // rack focus: 0 = foreground posts (~d-3.4), .5 = subject (d), 1 = background (d+18)
+    const fgD = Math.max(.6, d - 3.4), bgD = d + 18;
+    const fd = focusT < .5 ? fgD + (d - fgD) * focusT * 2 : d + (bgD - d) * (focusT - .5) * 2;
+    bokeh.uniforms.focus.value = fd;
+    rfo.textContent = focusT < .25 ? "foreground" : focusT > .75 ? "background" : "subject";
+    const frameH = 2 * d * Math.tan(cam.fov * Math.PI / 360);
+    rf.textContent = f.toFixed(0); rd.textContent = d.toFixed(1); rs.textContent = Math.min(100, SUBJ_H / frameH * 100).toFixed(0);
+    composer.render();
+  };
+  requestAnimationFrame(loop);
+}
+
+/* ---------- manifesto word reveal ---------- */
+{
+  const p = document.getElementById("manifesto");
+  p.innerHTML = p.textContent.split(" ").map(w => `<span class="w">${w}</span>`).join(" ");
+  const ws = p.querySelectorAll(".w");
+  ScrollTrigger.create({ trigger: p, start: "top 80%", end: "bottom 40%", scrub: true,
+    onUpdate: st => { const n = Math.round(st.progress * ws.length); ws.forEach((w, i) => w.classList.toggle("on", i < n)); } });
+}
+
+/* ---------- generic reveals ---------- */
+if (!reduce) gsap.utils.toArray(".reveal").forEach(el => gsap.to(el, { opacity: 1, y: 0, duration: 1.1, ease: "power3.out", scrollTrigger: { trigger: el, start: "top 85%" } }));
+
+/* ---------- film strip: 8 steps ---------- */
+const STEPS = [
+  ["Understand", "Script, duration, audience, format, tools. One sentence of intent in your words.", "brief card", "M10 30 H90 M10 55 H70 M10 80 H80"],
+  ["Structure", "Hook, context, turns, the reveal, the resolution, each anchored on a word.", "beat map", "M5 90 L30 70 L55 75 L80 30 L105 60 L130 50"],
+  ["Emotion", "Dominant feeling and intensity, beat by beat. The peak sits on the reveal.", "emotion timeline", "M5 95 C40 90 60 80 80 20 S120 70 140 60"],
+  ["Strategy", "What we see, what stays hidden and until when. Motifs. One colour script.", "see / hide list", "M20 20 H120 V100 H20 Z M45 45 H95 V75 H45 Z"],
+  ["Shots", "Size, angle, lens at a distance, composition, focus. Every move must pass the motivation gate.", "shot list", "M10 25 H60 V65 H10 Z M75 25 H135 V95 H75 Z M10 75 H60 V95 H10 Z"],
+  ["Timing", "Each camera, focus and subject event gets a start, an end and an ease. No 'slowly zoom'.", "timeline.json", "M5 40 H140 M5 70 H140 M30 30 V80 M90 30 V80"],
+  ["Validate", "Gaps, motivations, the 180° line, holds for text, tool limits: checked by a script.", "cdcheck · 0 errors", "M30 60 L60 90 L120 25"],
+  ["Deliver", "Crew shot list, Blender keyframes, 2D camera calls, AI prompts or an edit list.", "production instructions", "M15 60 H110 M85 35 L115 60 L85 85"]
+];
+{
+  const strip = document.getElementById("strip");
+  strip.innerHTML = STEPS.map((s, i) => `<article class="cell"><div class="num">STEP 0${i + 1}</div><h3>${s[0]}</h3>
+    <svg viewBox="0 0 150 110" aria-hidden="true"><path d="${s[3]}" fill="none" stroke="${i % 2 ? "#3fd0e0" : "#ffb347"}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" pathLength="1" style="stroke-dasharray:1;stroke-dashoffset:1" class="draw"/></svg>
+    <p>${s[1]}</p><div class="out">→ ${s[2]}</div></article>`).join("");
+  const mm = gsap.matchMedia();
+  mm.add("(min-width: 760px) and (prefers-reduced-motion: no-preference)", () => {
+    const dist = () => strip.scrollWidth - innerWidth + 64;
+    gsap.to(strip, { x: () => -dist(), ease: "none", scrollTrigger: { trigger: "#engine", start: "top top", end: () => "+=" + dist(), pin: true, scrub: 1, invalidateOnRefresh: true } });
+  });
+  mm.add("(max-width: 759px)", () => { strip.style.flexDirection = "column"; strip.style.width = "auto"; strip.style.padding = "28px 16px"; });
+  if (reduce) document.querySelectorAll(".draw").forEach(p => p.style.strokeDashoffset = 0);
+  setTimeout(() => document.querySelectorAll(".draw").forEach(p => gsap.to(p, { strokeDashoffset: 0, duration: 1.6, ease: "power2.inOut", scrollTrigger: { trigger: "#engine", start: "top 60%" } })), 0);
+}
+
+/* ---------- timeline (from examples/example_timeline.json) ---------- */
+const TL = {
+  duration: 20, beats: [[0, "hook"], [6, "development"], [12.4, "REVEAL"], [17, "resolution"]],
+  shots: [["S01", 0, 3, "ECU", "static", "hook"], ["S02", 3, 6, "WS", "pull-out · REVEAL", "she is alone"], ["S03", 6, 12.4, "OTS", "static", "read the logs"], ["S04", 12.4, 17, "MCU", "push-in · APPROACH", "realisation"], ["S05", 17, 20, "ECU", "static", "resolution"]],
+  cam: [[3, 6, "pull-out · REVEAL"], [12.4, 15.2, "push-in · APPROACH"]],
+  focus: [[15.2, 16.4, "eyes → screen"]],
+  hold: [[8, 11], [16.4, 17]],
+  music: [[12.4, "thin bed · soft impact"], [17, "resolve warmer"]]
+};
+{
+  const svg = document.getElementById("tlsvg"), W = 1000, X = t => 40 + t / TL.duration * (W - 60);
+  const ns = "http://www.w3.org/2000/svg", el = (n, a, txt) => { const e = document.createElementNS(ns, n); for (const k in a) e.setAttribute(k, a[k]); if (txt) e.textContent = txt; svg.appendChild(e); return e; };
+  const lane = (y, l) => { el("text", { x: 0, y: y + 13, fill: "#9b97a6", "font-size": 10, "font-family": "JetBrains Mono" }, l); el("line", { x1: 40, x2: W - 20, y1: y + 9, y2: y + 9, stroke: "#24242f" }); };
+  lane(10, "BEAT"); lane(52, "SHOT"); lane(104, "CAM"); lane(146, "FOCUS"); lane(188, "HOLD"); lane(226, "MUSIC");
+  TL.beats.forEach(([t, l]) => { el("circle", { cx: X(t), cy: 19, r: 5, fill: "#7c5cff" }); el("text", { x: X(t) + 9, y: 23, fill: "#cfc9bb", "font-size": 11, "font-family": "Inter" }, l); });
+  TL.shots.forEach(([id, a, b, ty]) => { el("rect", { x: X(a) + 1, y: 48, width: X(b) - X(a) - 2, height: 26, rx: 4, fill: "#ece7dc1c", stroke: "#ece7dc44" }); el("text", { x: X(a) + 8, y: 66, fill: "#ece7dc", "font-size": 11, "font-family": "JetBrains Mono" }, `${id} ${ty}`); });
+  TL.cam.forEach(([a, b, l]) => { el("rect", { x: X(a), y: 102, width: X(b) - X(a), height: 18, rx: 9, fill: "#ffb347" }); el("text", { x: X(a) + 8, y: 115, fill: "#000", "font-size": 10, "font-family": "JetBrains Mono" }, l); });
+  TL.focus.forEach(([a, b, l]) => { el("rect", { x: X(a), y: 144, width: X(b) - X(a), height: 18, rx: 9, fill: "#3fd0e0" }); el("text", { x: X(b) + 6, y: 157, fill: "#3fd0e0", "font-size": 10, "font-family": "JetBrains Mono" }, l); });
+  const defs = el("defs", {}); defs.innerHTML = '<pattern id="hatch" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="2" height="6" fill="#ff3b30"/></pattern>';
+  TL.hold.forEach(([a, b]) => el("rect", { x: X(a), y: 186, width: X(b) - X(a), height: 18, rx: 3, fill: "url(#hatch)", stroke: "#ff3b3088" }));
+  TL.music.forEach(([t, l]) => { el("rect", { x: X(t) - 5, y: 222, width: 10, height: 10, rx: 2, fill: "#19c6b4" }); el("text", { x: X(t) + 10, y: 231, fill: "#19c6b4", "font-size": 10, "font-family": "JetBrains Mono" }, l); });
+  const head = el("line", { x1: X(0), x2: X(0), y1: 2, y2: 246, stroke: "#ff3b30", "stroke-width": 2 });
+  const tlc = document.getElementById("tlc"), now = document.getElementById("tlnow"), btn = document.getElementById("tlplay");
+  const state = { t: 0 };
+  const draw = () => { const x = X(state.t); head.setAttribute("x1", x); head.setAttribute("x2", x); tlc.textContent = "00:" + state.t.toFixed(1).padStart(4, "0");
+    const s = TL.shots.find(s => state.t >= s[1] && state.t < s[2]) || TL.shots[TL.shots.length - 1]; now.textContent = `${s[0]} · ${s[3]} · ${s[4]} · ${s[5]}`; };
+  const tw = gsap.to(state, { t: TL.duration, duration: 20, ease: "none", paused: true, onUpdate: draw, repeat: -1 });
+  btn.onclick = () => { tw.paused() ? (tw.play(), btn.textContent = "❚❚ pause") : (tw.pause(), btn.textContent = "▶ play"); };
+  if (!reduce) ScrollTrigger.create({ trigger: svg, start: "top 75%", once: true, onEnter: () => { tw.play(); btn.textContent = "❚❚ pause"; } });
+  draw();
+}
+
+/* ---------- modes ---------- */
+const MODES = [["M01", "Short-form", "9:16 · hook in 1-2 s, camera holds on text", 9 / 16], ["M02", "Long-form", "chapters, B-roll, callbacks", 16 / 9],
+  ["M03", "Animation", "virtual camera, real lens values, keyframes", 16 / 9], ["M04", "Personal", "found moments, natural light, never staged", 3 / 2],
+  ["M05", "Cinematic", "suspense, reveals, one lens family", 2.39], ["M06", "Educational", "hierarchy first, deep focus on screens", 16 / 9],
+  ["M07", "Commercial", "hero shot, materials, controlled moves", 4 / 5], ["M08", "Documentary · Music", "observe; cut on phrases, not beats", 1.85]];
+{
+  const g = document.getElementById("modegrid");
+  g.innerHTML = MODES.map(([id, n, d, ar]) => { const w = ar >= 1 ? 100 : 100 * ar * 0.8;   // portrait frames stay narrow on one-column phones
+    return `<div class="mode reveal"><div class="ar" style="width:${w}%;aspect-ratio:${ar}"></div><div class="id">${id}</div><h4>${n}</h4><p>${d}</p></div>`; }).join("");
+  if (!reduce) g.querySelectorAll(".mode").forEach(m => {
+    m.addEventListener("pointermove", e => { const r = m.getBoundingClientRect(), x = (e.clientX - r.left) / r.width - .5, y = (e.clientY - r.top) / r.height - .5;
+      m.style.transform = `perspective(700px) rotateY(${x * 8}deg) rotateX(${-y * 8}deg)`; });
+    m.addEventListener("pointerleave", () => m.style.transform = "");
+  });
+  if (!reduce) gsap.to(g.querySelectorAll(".mode"), { opacity: 1, y: 0, stagger: .08, duration: .9, ease: "power3.out", scrollTrigger: { trigger: g, start: "top 80%" } });
+}
+
+/* ---------- principles ---------- */
+const PR = ["No camera movement without a reason.", "No zoom to add energy: a zoom is looking, a dolly is entering.", "Shallow depth of field is budgeted, not default.", "The rule of thirds is a choice, not a law.", "Camera distance first, then the lens.", "Clarity beats complexity.", "No cut without a reason.", "Continuity is checked on every cut.", "Physical and virtual cameras are never confused.", "No AI tool is assumed to obey every instruction.", "No invented facts, films or sources.", "No single house look across genres.", "No repeated shot patterns without alternatives.", "What the audience sees, and when.", "What stays hidden, and until when.", "Important decisions are explained.", "Technical needs and creative choices are labelled apart.", "Your story stays yours."];
+document.getElementById("plist").innerHTML = PR.map(p => `<li>${p}</li>`).join("");
+if (!reduce) gsap.fromTo("#principles h2", { scale: .94 }, { scale: 1.04, ease: "none", scrollTrigger: { trigger: "#principles", start: "top bottom", end: "bottom top", scrub: true } });
+
+/* ---------- footer: pull-out + fade ---------- */
+/* layout changed above (strip column on phones, injected cards): recompute trigger positions */
+ScrollTrigger.refresh();
+addEventListener("load", () => ScrollTrigger.refresh());
+document.fonts && document.fonts.ready.then(() => ScrollTrigger.refresh());
+if (!reduce) gsap.fromTo("footer .end", { scale: 1.6, opacity: 0 }, { scale: 1, opacity: 1, ease: "power2.out", scrollTrigger: { trigger: "footer", start: "top 90%", end: "top 40%", scrub: true } });
+</script>
+</body>
+</html>

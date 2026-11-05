@@ -1,0 +1,4 @@
+tests/results/*_session.log
+__pycache__/
+*.pyc
+docs/_phone.html

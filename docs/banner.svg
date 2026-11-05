@@ -1,0 +1,61 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 440" width="1280" height="440" role="img" aria-label="Cinematography Director: a corridor stretches behind a figure that keeps its size (dolly zoom) while focus racks between foreground and background">
+  <defs>
+    <linearGradient id="title" x1="0" x2="1"><stop offset="0" stop-color="#ffb347"/><stop offset=".45" stop-color="#ffd9a0"/><stop offset="1" stop-color="#3fd0e0"/></linearGradient>
+    <radialGradient id="pool" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="#ffb347" stop-opacity=".35"/><stop offset="1" stop-color="#ffb347" stop-opacity="0"/></radialGradient>
+    <radialGradient id="vig" cx=".5" cy=".5" r=".75"><stop offset=".55" stop-color="#000" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".75"/></radialGradient>
+    <linearGradient id="cone" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffb347" stop-opacity=".22"/><stop offset="1" stop-color="#ffb347" stop-opacity="0"/></linearGradient>
+    <filter id="bgblur" x="-10%" y="-10%" width="120%" height="120%"><feGaussianBlur stdDeviation="0"><animate attributeName="stdDeviation" values="0;3.5;3.5;0;0" keyTimes="0;.3;.5;.8;1" dur="8s" repeatCount="indefinite"/></feGaussianBlur></filter>
+    <filter id="fgblur" x="-50%" y="-10%" width="200%" height="120%"><feGaussianBlur stdDeviation="5"><animate attributeName="stdDeviation" values="5;0;0;5;5" keyTimes="0;.3;.5;.8;1" dur="8s" repeatCount="indefinite"/></feGaussianBlur></filter>
+    <filter id="grain"><feTurbulence type="fractalNoise" baseFrequency=".9" numOctaves="2" seed="3"><animate attributeName="seed" values="1;2;3;4;5;6" dur=".6s" repeatCount="indefinite"/></feTurbulence><feColorMatrix values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 .06 0"/></filter>
+    <clipPath id="frame"><rect x="0" y="44" width="1280" height="352"/></clipPath>
+  </defs>
+  <rect width="1280" height="440" fill="#050507"/>
+  <g clip-path="url(#frame)">
+    <!-- corridor: the vanishing lines widen/narrow = dolly zoom (subject stays the same size) -->
+    <g filter="url(#bgblur)" stroke="#2a2a36" stroke-width="1.5" fill="none">
+      <path d="M0 396 L560 250 M1280 396 L720 250 M0 44 L560 190 M1280 44 L720 190">
+        <animate attributeName="d" dur="8s" repeatCount="indefinite" calcMode="spline" keySplines=".45 0 .55 1;.45 0 .55 1" keyTimes="0;.5;1"
+          values="M0 396 L560 250 M1280 396 L720 250 M0 44 L560 190 M1280 44 L720 190;M0 396 L610 236 M1280 396 L670 236 M0 44 L610 204 M1280 44 L670 204;M0 396 L560 250 M1280 396 L720 250 M0 44 L560 190 M1280 44 L720 190"/>
+      </path>
+      <!-- pillars -->
+      <g fill="#14141c" stroke="none">
+        <rect x="120" y="44" width="34" height="352"><animate attributeName="x" values="120;60;120" dur="8s" repeatCount="indefinite" calcMode="spline" keySplines=".45 0 .55 1;.45 0 .55 1" keyTimes="0;.5;1"/></rect>
+        <rect x="1126" y="44" width="34" height="352"><animate attributeName="x" values="1126;1186;1126" dur="8s" repeatCount="indefinite" calcMode="spline" keySplines=".45 0 .55 1;.45 0 .55 1" keyTimes="0;.5;1"/></rect>
+        <rect x="330" y="120" width="22" height="210"><animate attributeName="x" values="330;450;330" dur="8s" repeatCount="indefinite" calcMode="spline" keySplines=".45 0 .55 1;.45 0 .55 1" keyTimes="0;.5;1"/><animate attributeName="height" values="210;150;210" dur="8s" repeatCount="indefinite" calcMode="spline" keySplines=".45 0 .55 1;.45 0 .55 1" keyTimes="0;.5;1"/><animate attributeName="y" values="120;150;120" dur="8s" repeatCount="indefinite" calcMode="spline" keySplines=".45 0 .55 1;.45 0 .55 1" keyTimes="0;.5;1"/></rect>
+        <rect x="928" y="120" width="22" height="210"><animate attributeName="x" values="928;808;928" dur="8s" repeatCount="indefinite" calcMode="spline" keySplines=".45 0 .55 1;.45 0 .55 1" keyTimes="0;.5;1"/><animate attributeName="height" values="210;150;210" dur="8s" repeatCount="indefinite" calcMode="spline" keySplines=".45 0 .55 1;.45 0 .55 1" keyTimes="0;.5;1"/><animate attributeName="y" values="120;150;120" dur="8s" repeatCount="indefinite" calcMode="spline" keySplines=".45 0 .55 1;.45 0 .55 1" keyTimes="0;.5;1"/></rect>
+      </g>
+      <!-- far windows (cool) -->
+      <g fill="#3fd0e0" opacity=".35" stroke="none">
+        <rect x="604" y="206" width="16" height="22"><animate attributeName="opacity" values=".35;.8;.35" dur="8s" repeatCount="indefinite"/></rect>
+        <rect x="630" y="206" width="16" height="22"/><rect x="656" y="206" width="16" height="22"/>
+      </g>
+      <circle cx="250" cy="170" r="5" fill="#ffb347" stroke="none"/><circle cx="1030" cy="170" r="5" fill="#ffb347" stroke="none"/>
+    </g>
+    <!-- key light cone + pool -->
+    <path d="M420 44 L250 396 L760 396 Z" fill="url(#cone)"/>
+    <ellipse cx="640" cy="380" rx="170" ry="26" fill="url(#pool)"/>
+    <!-- the subject: constant size -->
+    <g>
+      <rect x="616" y="270" width="48" height="112" rx="24" fill="#ece7dc"/>
+      <circle cx="640" cy="250" r="22" fill="#ece7dc"/>
+      <rect x="652" y="272" width="12" height="108" rx="6" fill="#3fd0e0" opacity=".35"/>
+    </g>
+    <!-- foreground posts (rack focus) -->
+    <g filter="url(#fgblur)" fill="#2b2118"><rect x="210" y="44" width="16" height="352"/><rect x="1040" y="44" width="16" height="352"/></g>
+    <rect width="1280" height="440" fill="url(#vig)"/>
+    <rect width="1280" height="440" filter="url(#grain)"/>
+  </g>
+  <!-- letterbox + viewfinder -->
+  <g stroke="#ffffff66" fill="none" stroke-width="1.5"><path d="M24 70 V58 H36 M1256 70 V58 H1244 M24 370 V382 H36 M1256 370 V382 H1244"/></g>
+  <g font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="13" fill="#ffffffb0" letter-spacing="1.5">
+    <circle cx="50" cy="26" r="5" fill="#ff3b30"><animate attributeName="opacity" values="1;.15;1" dur="1.2s" repeatCount="indefinite"/></circle>
+    <text x="62" y="31">REC</text>
+    <text x="1256" y="31" text-anchor="end">SHOT 01 · EWS · DOLLY ZOOM · 35→18MM</text>
+    <text x="24" y="424">FOCUS: FG ⇄ BG · T2.8</text>
+    <text x="1256" y="424" text-anchor="end" fill="#ffb347">STORY BEFORE SPECTACLE</text>
+  </g>
+  <g font-family="Georgia, 'Times New Roman', serif" text-anchor="middle">
+    <text x="640" y="150" font-size="64" fill="#ece7dc" font-weight="300">Cinematography <tspan font-style="italic" fill="url(#title)">Director</tspan></text>
+    <text x="640" y="186" font-size="20" fill="#cfc9bb" font-style="italic">a Claude Code skill that thinks like a Director of Photography</text>
+  </g>
+</svg>
