@@ -1,0 +1,47 @@
+{
+  "version": 1,
+  "duration": 25.6,
+  "fps": 24,
+  "mode": ["M01", "M05"],
+  "adapter": "edit_resolve",
+  "timing": "measured",
+  "beats": [
+    {"t": 0.0, "kind": "hook", "label": "Thom walks, unaware; caption plants the question", "emotion": "calm", "secondary": "unease", "intensity": 2},
+    {"t": 5.5, "kind": "reveal", "label": "robot edge enters frame right", "emotion": "dread", "secondary": "curiosity", "intensity": 3},
+    {"t": 10.5, "kind": "climax", "label": "robot face, full", "emotion": "awe", "secondary": "threat", "intensity": 4},
+    {"t": 12.35, "kind": "turn", "label": "man and machine in one frame", "emotion": "tension", "intensity": 4},
+    {"t": 14.15, "kind": "section", "label": "time jump: Thom and Celia", "emotion": "quiet", "secondary": "guilt", "intensity": 2},
+    {"t": 15.9, "kind": "key_info", "label": "holographic line: follow our passions", "emotion": "longing", "intensity": 3},
+    {"t": 18.85, "kind": "development", "label": "Thom waits", "emotion": "vulnerability", "intensity": 4},
+    {"t": 23.4, "kind": "resolution", "label": "Celia unconvinced", "emotion": "coldness", "secondary": "hurt", "intensity": 3}
+  ],
+  "shots": [
+    {"id": "S1", "t0": 0.0, "t1": 10.5, "type": "MS", "angle": "eye level, profile", "subject": "Thom", "scene": "bridge", "dof": "moderate",
+     "hold_for_text": [0.0, 4.5],
+     "camera": [
+       {"move": "static", "t0": 0.0, "t1": 5.0, "reason": "caption is read; Thom stays inside the window"},
+       {"move": "pan", "t0": 5.0, "t1": 9.5, "amount": "crop cx 820 -> 720 px (100 px of 1920)", "ease": "inOut", "motivation": "FOLLOW",
+        "reason": "Thom drifts left in the source; the follow keeps his looking room and lets the robot enter the right edge", "fallback": "Resolve: animated position on the 1.0-scale crop"}
+     ],
+     "transition_out": "hard cut"},
+    {"id": "S2", "t0": 10.5, "t1": 12.35, "type": "CU", "angle": "eye level", "subject": "robot", "scene": "bridge", "dof": "moderate",
+     "camera": [{"move": "static", "reason": "the face is the information; hold"}], "transition_out": "hard cut"},
+    {"id": "S3", "t0": 12.35, "t1": 14.15, "type": "WS", "angle": "eye level", "subject": "Thom + robot", "scene": "bridge", "dof": "deep",
+     "camera": [{"move": "static", "reason": "relationship frame; any move would push one of the two out"}], "transition_out": "hard cut"},
+    {"id": "S4", "t0": 14.15, "t1": 15.9, "type": "MCU", "angle": "eye level, frontal", "subject": "Thom", "scene": "canal", "dof": "moderate",
+     "camera": [{"move": "static", "reason": "Celia cannot fit; clean single"}], "transition_out": "hard cut"},
+    {"id": "S5", "t0": 15.9, "t1": 18.85, "type": "WS", "angle": "eye level", "subject": "holographic text over houses", "scene": "canal", "dof": "shallow",
+     "focus": [{"t0": 15.9, "t1": 16.8, "from": "Thom profile (out of crop)", "to": "houses + hologram", "reason": "source rack focus reveals the line", "fallback": "use the rack baked into the source; no focus change in the edit"}],
+     "camera": [{"move": "static", "reason": "the rack focus in the footage is the reveal; the crop holds"}], "transition_out": "hard cut"},
+    {"id": "S6", "t0": 18.85, "t1": 23.4, "type": "BCU", "angle": "eye level, 3/4", "subject": "Thom", "scene": "canal", "dof": "shallow",
+     "camera": [{"move": "static", "reason": "emotional peak; the face carries it"}], "transition_out": "hard cut"},
+    {"id": "S7", "t0": 23.4, "t1": 25.6, "type": "CU", "angle": "eye level, 3/4", "subject": "Celia", "scene": "canal", "dof": "shallow",
+     "camera": [{"move": "static", "reason": "answer shot; eyeline matches S6"}], "transition_out": "end"}
+  ],
+  "music_hints": [
+    {"t": 0.0, "hint": "silent by licence; if a music skill scores it later: low unease, nothing melodic under captions"},
+    {"t": 10.5, "hint": "robot face: biggest hit point"},
+    {"t": 14.15, "hint": "time jump: drop to quiet"},
+    {"t": 23.4, "hint": "Celia: unresolved ending"}
+  ]
+}

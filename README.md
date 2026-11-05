@@ -1,23 +1,47 @@
 <p align="center">
-  <a href="https://jayaprakash-pixel.github.io/cinematography-director/"><img src="docs/banner.svg" alt="Cinematography Director: a corridor stretches behind a figure that keeps its size (a dolly zoom) while focus racks between foreground and background"></a>
+  <a href="https://jayaprakash-pixel.github.io/cinematography-director/"><img src="docs/banner.jpg" alt="Cinematography Director: a scanned marble bust at the end of a colonnade, lit by a warm key and a cyan rim, under the title"></a>
 </p>
 
-<h1 align="center">Cinematography Director</h1>
-
 <p align="center"><b>Story before spectacle.</b><br>
-A Claude Code skill that reads your script like a Director of Photography and decides what the audience sees, how, and when — with a reason for every shot.</p>
+A Claude Code skill that reads your script or your footage like a Director of Photography and decides what the audience sees, how, and when — with a reason for every frame.</p>
 
 <p align="center">
-  <a href="https://jayaprakash-pixel.github.io/cinematography-director/"><b>▶ Live page: zoom vs dolly vs dolly zoom, in real 3D</b></a> ·
+  <a href="https://jayaprakash-pixel.github.io/cinematography-director/"><b>▶ Live page</b></a> ·
+  <a href="#proof-on-real-footage">Proof</a> ·
   <a href="#install">Install</a> ·
   <a href="#how-it-thinks">How it thinks</a> ·
   <a href="#tested">Tested</a> ·
   <a href="LICENSE">Apache-2.0</a>
 </p>
 
-<p align="center"><a href="https://jayaprakash-pixel.github.io/cinematography-director/"><img src="docs/preview.gif" width="820" alt="The live page: a slate, a 3D corridor with a dolly zoom, the interactive zoom vs dolly lab, and the shot timeline"></a></p>
-
 ---
+
+## Proof on real footage
+
+We gave the skill a 2.39:1 scene from the open movie *Tears of Steel* and one job: **make it a vertical Short**. A fresh Claude session with only this skill read the frames and wrote the edit plan. A small script ([`render.py`](examples/tears_of_steel/render.py)) executed that plan exactly.
+
+<p align="center"><img src="docs/compare.webp" width="640" alt="Side by side, same cuts: left an automatic centre crop that cuts faces in half and pushes the actor to the edge; right the skill's framing that keeps eyes, nose and mouth, with captions that never cover a face"></p>
+
+| Shot | Auto centre crop | What the skill decided, and why |
+|---|---|---|
+| S1 | the actor slides off the left edge | hold while the caption reads, then follow his drift; **keep the robot hidden until the cut** |
+| S4 | half a face | the over-the-shoulder cannot fit 450 px, so **it becomes a clean single** |
+| S5 | the hologram is cut | the hologram is too wide: frame its centre, and **a caption restores the full line** |
+| S6 | an ear and half a nose | the face is wider than the crop: **keep the eyes, nose and mouth** |
+| all | — | **no punch-in**: the source is 800 px tall, so any zoom would upscale (zero headroom) |
+
+The skill's own output (brief, `edit_plan.json`, `timeline.json` and report) is in [`examples/tears_of_steel/`](examples/tears_of_steel/). Footage: *Tears of Steel* (CC) Blender Foundation | mango.blender.org, CC BY 3.0. The demo is silent because the soundtrack licence forbids derivatives. On the [live page](https://jayaprakash-pixel.github.io/cinematography-director/), you can drag a wipe across both versions.
+
+## The live page
+
+<p align="center"><a href="https://jayaprakash-pixel.github.io/cinematography-director/"><img src="docs/preview.webp" width="640" alt="Live page walkthrough: slate, a dolly zoom on the marble bust, the before/after wipe, the zoom vs dolly lab, the eight-step film strip and the timeline"></a></p>
+
+The live page has these parts:
+- A slate, then a **dolly zoom** on a scanned marble bust.
+- The **before/after wipe** on the footage above.
+- A Three.js **lab**: switch ZOOM, DOLLY and DOLLY ZOOM on the same framing and watch the parallax appear and disappear, with a real depth-of-field rack focus.
+- The eight-step decision engine as a film strip.
+- A timeline that plays its camera, focus and music lanes.
 
 ## What it does
 
@@ -133,4 +157,4 @@ Claude reads `SKILL.md`. Then it reads only the mode, the adapter and the domain
 
 [Apache-2.0](LICENSE) © 2026 Jayaprakash, White Noise Academy. Use it, fork it, ship it.
 
-The live page uses [Three.js](https://github.com/mrdoob/three.js) (MIT) and [GSAP](https://gsap.com/) (loaded from a CDN under its own licence). Film and cinematographer references cite their sources and reproduce no copyrighted material.
+The live page uses [Three.js](https://github.com/mrdoob/three.js) (MIT), [GSAP](https://gsap.com/) (loaded from a CDN under its own licence) and the *Marble Bust 01* scan by Rico Cilliers from [Poly Haven](https://polyhaven.com/a/marble_bust_01) (CC0). Demo footage: *Tears of Steel* (CC) Blender Foundation | mango.blender.org (CC BY 3.0). Film and cinematographer references cite their sources and reproduce no copyrighted material.

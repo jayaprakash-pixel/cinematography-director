@@ -86,6 +86,23 @@ h2 em{font-style:italic;color:var(--tungsten)}
 .manifesto .w{display:inline-block;opacity:.12;transition:opacity .4s}
 .manifesto .w.on{opacity:1}
 
+
+/* proof: before/after wipe on real footage */
+.proof{display:grid;grid-template-columns:minmax(0,420px) minmax(0,1fr);gap:48px;align-items:center}
+.wipe{position:relative;aspect-ratio:9/16;border-radius:14px;overflow:hidden;border:1px solid var(--line);background:#000;touch-action:none;cursor:ew-resize;user-select:none}
+.wipe video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
+.wipe .after{clip-path:inset(0 0 0 var(--cut,50%))}
+.wipe .bar{position:absolute;top:0;bottom:0;left:var(--cut,50%);width:2px;background:var(--tungsten);box-shadow:0 0 18px #ffb347aa}
+.wipe .bar i{position:absolute;top:50%;left:50%;width:38px;height:38px;margin:-19px;border-radius:50%;background:#050507cc;border:2px solid var(--tungsten);display:grid;place-items:center;color:var(--tungsten);font:600 13px var(--mono)}
+.wipe .lab-l,.wipe .lab-r{position:absolute;top:12px;font:600 10px var(--mono);letter-spacing:.14em;padding:4px 8px;border-radius:4px;background:#000a}
+.wipe .lab-l{left:12px;color:#c9c3b5}.wipe .lab-r{right:12px;color:var(--tungsten)}
+.shots{list-style:none;margin:22px 0 0;padding:0}
+.shots li{display:grid;grid-template-columns:44px 1fr;gap:10px;padding:10px 0;border-bottom:1px solid var(--line);color:var(--muted);font-size:15px;transition:color .3s}
+.shots li b{font:600 12px var(--mono);color:#5c5866;padding-top:3px}
+.shots li.on{color:var(--text)}.shots li.on b{color:var(--tungsten)}
+.credit{font:11px var(--mono);color:#6f6b79;margin-top:14px}
+@media (max-width:900px){.proof{grid-template-columns:minmax(0,1fr)}.wipe{width:100%;max-width:380px;margin:0 auto}}
+
 /* lab */
 .lab{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(0,1fr);gap:28px;align-items:stretch}
 .lab>*{min-width:0}
@@ -213,6 +230,27 @@ footer .end{font-family:var(--serif);font-style:italic;font-size:clamp(36px,6vw,
   </div>
 </section>
 
+
+<section id="proof" data-shot="SHOT 02A · SPLIT SCREEN" data-meta="REAL FOOTAGE · 9:16">
+  <div class="wrap">
+    <div class="slate-strip"><span class="n">Shot 02A</span><span>Split screen</span><span>real footage</span><span class="why">Same footage. Same cuts. One difference: who decided the frame.</span></div>
+    <h2>Proof, not <em>promises.</em></h2>
+    <div class="proof">
+      <div class="wipe" id="wipe" aria-label="Drag to compare the automatic centre crop with the skill's framing">
+        <video class="before" src="assets/demo/before.mp4" muted playsinline loop preload="auto"></video>
+        <video class="after" src="assets/demo/after.mp4" muted playsinline loop preload="auto"></video>
+        <span class="lab-l">AUTO CROP</span><span class="lab-r">SKILL</span>
+        <div class="bar"><i>⇆</i></div>
+      </div>
+      <div>
+        <p class="lede reveal">We gave the skill a 2.39:1 scene from the open movie <i>Tears of Steel</i> and one job: make it a vertical Short. It read the frames and placed a 450-pixel window for every shot. It refused any punch-in, because the source has zero headroom. It hid the robot until the cut. It wrote captions that never sit on a face. A script rendered its plan exactly. Drag the line.</p>
+        <ol class="shots" id="shotlist"></ol>
+        <p class="credit">Footage: Tears of Steel (CC) Blender Foundation | mango.blender.org, CC BY 3.0. Silent: the soundtrack licence forbids derivatives. The skill's own plan: <a href="https://github.com/jayaprakash-pixel/cinematography-director/tree/main/examples/tears_of_steel">examples/tears_of_steel</a>.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
 <section id="lab" data-shot="SHOT 03 · INSERT · INTERACTIVE" data-meta="FOCAL 24-100MM · LIVE">
   <div class="wrap">
     <div class="slate-strip"><span class="n">Shot 03</span><span>Insert</span><span>interactive</span><span class="why">The one distinction this skill never blurs.</span></div>
@@ -317,7 +355,7 @@ python ~/.claude/skills/cinematography-director/scripts/cdcheck.py selftest</pre
 <footer data-shot="SHOT 10 · EWS · PULL-OUT" data-meta="WITHDRAW · FADE OUT">
   <p class="end">Cut.</p>
   <p>Cinematography Director · Apache-2.0 · by Jayaprakash, White Noise Academy<br>
-  Built for Claude Code. Three.js and GSAP on this page. Research sources listed in <a href="https://github.com/jayaprakash-pixel/cinematography-director/blob/main/references/research_sources.md">references/research_sources.md</a>.</p>
+  Built for Claude Code. Three.js and GSAP on this page. Marble Bust 01 by Rico Cilliers, Poly Haven (CC0). Demo footage: Tears of Steel (CC) Blender Foundation | mango.blender.org (CC BY 3.0). Research sources listed in <a href="https://github.com/jayaprakash-pixel/cinematography-director/blob/main/references/research_sources.md">references/research_sources.md</a>.</p>
 </footer>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
@@ -328,6 +366,11 @@ import { EffectComposer } from "three/addons/postprocessing/EffectComposer.js";
 import { RenderPass } from "three/addons/postprocessing/RenderPass.js";
 import { BokehPass } from "three/addons/postprocessing/BokehPass.js";
 import { OutputPass } from "three/addons/postprocessing/OutputPass.js";
+import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
+import { RoomEnvironment } from "three/addons/environments/RoomEnvironment.js";
+const envFor = r => new THREE.PMREMGenerator(r).fromScene(new RoomEnvironment(), .04).texture;
+let bustPromise = null;
+const loadBust = () => bustPromise ||= new GLTFLoader().loadAsync("assets/bust/marble_bust_01_1k.gltf").then(g => g.scene);
 
 const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
 gsap.registerPlugin(ScrollTrigger);
@@ -377,12 +420,19 @@ function buildSet(scene, warm = 0xffb347) {
   const wall = new THREE.Mesh(new THREE.PlaneGeometry(14, 10), new THREE.MeshBasicMaterial({ color: 0x0b0d14 })); wall.position.set(0, 5, -40); scene.add(wall);
   const winM = new THREE.MeshBasicMaterial({ color: 0x3fd0e0, transparent: true, opacity: .35 });
   for (let r = 0; r < 4; r++) for (let c = 0; c < 6; c++) { const w = new THREE.Mesh(new THREE.PlaneGeometry(1.1, 1.4), winM); w.position.set(-3.75 + c * 1.5, 1.6 + r * 2, -39.9); scene.add(w); }
-  // subject: stylised figure
-  const sm = new THREE.MeshStandardMaterial({ color: 0xece7dc, roughness: .45 });
+  // subject: a real scanned marble bust (Poly Haven, CC0) on a dark plinth
   const subject = new THREE.Group();
-  const body = new THREE.Mesh(new THREE.CapsuleGeometry(.42, 1.1, 8, 24), sm); body.position.y = 1.05;
-  const head = new THREE.Mesh(new THREE.SphereGeometry(.3, 32, 32), sm); head.position.y = 2.15;
-  subject.add(body, head); scene.add(subject);
+  const plinth = new THREE.Mesh(new THREE.BoxGeometry(.7, 1.2, .7), new THREE.MeshStandardMaterial({ color: 0x15151c, roughness: .35, metalness: .3 }));
+  plinth.position.y = .6; subject.add(plinth); scene.add(subject);
+  loadBust().then(src => {
+    const bust = src.clone(true);
+    const box = new THREE.Box3().setFromObject(bust), size = box.getSize(new THREE.Vector3());
+    const s = 1.25 / size.y; bust.scale.setScalar(s);
+    const b2 = new THREE.Box3().setFromObject(bust), c = b2.getCenter(new THREE.Vector3());
+    bust.position.set(-c.x, 1.2 - b2.min.y, -c.z); bust.rotation.y = -.35;
+    bust.traverse(o => { if (o.isMesh) { o.material.envMapIntensity = 1; } });
+    subject.add(bust);
+  });
   // foreground posts (near camera) for parallax
   const fg = new THREE.Group(); const fm = new THREE.MeshStandardMaterial({ color: 0x2b2118, roughness: .7 });
   for (const x of [-1.6, 1.9]) { const f = new THREE.Mesh(new THREE.CylinderGeometry(.09, .09, 3.2, 16), fm); f.position.set(x, 1.6, 3.4); fg.add(f); }
@@ -398,7 +448,7 @@ function buildSet(scene, warm = 0xffb347) {
   scene.add(dust);
   return { subject, dust };
 }
-const SUBJ_H = 2.6;                       // subject height incl. head (m)
+const SUBJ_H = 2.45;                      // plinth 1.2 m + bust 1.25 m
 const sensorH = 24;                        // full-frame height (mm)
 const fovFromF = f => 2 * Math.atan(sensorH / 2 / f) * 180 / Math.PI;
 const fFromFov = v => sensorH / 2 / Math.tan(v * Math.PI / 360);
@@ -414,6 +464,7 @@ function onVisible(el, cb) { let v = false; new IntersectionObserver(e => { v = 
 {
   const canvas = document.getElementById("hero"), r = makeRenderer(canvas), scene = new THREE.Scene();
   const { dust } = buildSet(scene);
+  scene.environment = envFor(r); scene.environmentIntensity = .35;
   const cam = new THREE.PerspectiveCamera(35, 1, .1, 100);
   const size = () => { const w = canvas.clientWidth, h = canvas.clientHeight; r.setSize(w, h, false); cam.aspect = w / h; cam.updateProjectionMatrix(); };
   size(); addEventListener("resize", size);
@@ -425,12 +476,39 @@ function onVisible(el, cb) { let v = false; new IntersectionObserver(e => { v = 
     const s = reduce ? .3 : (Math.sin(t / 4200) * .5 + .5);
     const d = 4.2 + s * 9;                                      // distance 4.2..13.2 m
     cam.fov = 2 * Math.atan(k() / 2 / d) * 180 / Math.PI;       // subject size constant
-    const ly = cam.aspect < 1 ? .4 : 1.6;                       // portrait: figure sits higher, above the title
+    const ly = cam.aspect < 1 ? .4 : 1.3;                       // portrait: figure sits higher, above the title
     cam.position.set(Math.sin(t / 9000) * .25, 1.7, d); cam.lookAt(0, ly, 0); cam.updateProjectionMatrix();
     dust.rotation.y = t / 60000;
     r.render(scene, cam);
   };
   requestAnimationFrame(loop);
+}
+
+
+/* ---------- proof: before/after wipe ---------- */
+{
+  const SH = [["S1", 0, 10.5, "Hold while the caption reads, then follow his drift. The robot stays hidden."], ["S2", 10.5, 12.35, "Cut to the robot's full face: new information."],
+    ["S3", 12.35, 14.15, "The only frame that holds the man and the machine."], ["S4", 14.15, 15.9, "The over-the-shoulder cannot fit 450 px, so it becomes a clean single."],
+    ["S5", 15.9, 18.85, "The hologram is too wide, so frame its centre; the caption restores the line."], ["S6", 18.85, 23.4, "His face is wider than the crop: keep the eyes, nose and mouth."],
+    ["S7", 23.4, 25.6, "Her eyeline matches S6: she looks left, toward him."]];
+  const wipe = document.getElementById("wipe"), [vb, va] = wipe.querySelectorAll("video"), list = document.getElementById("shotlist");
+  list.innerHTML = SH.map(s => `<li><b>${s[0]}</b><span>${s[3]}</span></li>`).join("");
+  const lis = list.querySelectorAll("li");
+  const set = x => { const r = wipe.getBoundingClientRect(); wipe.style.setProperty("--cut", Math.max(0, Math.min(100, (x - r.left) / r.width * 100)) + "%"); };
+  let drag = false;
+  wipe.addEventListener("pointerdown", e => { drag = true; wipe.setPointerCapture(e.pointerId); set(e.clientX); });
+  wipe.addEventListener("pointermove", e => { if (drag) set(e.clientX); });
+  wipe.addEventListener("pointerup", () => drag = false);
+  let auto = !reduce;
+  wipe.addEventListener("pointerdown", () => auto = false, { once: true });
+  const tick = () => {
+    if (Math.abs(vb.currentTime - va.currentTime) > .08) vb.currentTime = va.currentTime;
+    const t = va.currentTime; lis.forEach((li, i) => li.classList.toggle("on", t >= SH[i][1] && t < SH[i][2]));
+    if (auto) wipe.style.setProperty("--cut", (50 + 32 * Math.sin(performance.now() / 1400)) + "%");
+    requestAnimationFrame(tick);
+  };
+  new IntersectionObserver(e => { if (e[0].isIntersecting) { va.play().catch(() => {}); vb.play().catch(() => {}); } else { va.pause(); vb.pause(); } }).observe(wipe);
+  requestAnimationFrame(tick);
 }
 
 /* ---------- LAB: zoom vs dolly vs dolly zoom + rack focus ---------- */
@@ -442,6 +520,7 @@ const EXPLAIN = {
 {
   const canvas = document.getElementById("lab3d"), r = makeRenderer(canvas), scene = new THREE.Scene();
   buildSet(scene);
+  scene.environment = envFor(r); scene.environmentIntensity = .35;
   const cam = new THREE.PerspectiveCamera(fovFromF(35), 2.39, .1, 100);
   const composer = new EffectComposer(r);
   composer.addPass(new RenderPass(scene, cam));

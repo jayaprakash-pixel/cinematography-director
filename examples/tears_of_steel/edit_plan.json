@@ -1,0 +1,81 @@
+{
+  "source": "Tears of Steel (CC BY 3.0, (CC) Blender Foundation | mango.blender.org), 1920x800, 24 fps",
+  "crop": {"w": 450, "h": 800, "out": "9:16", "audio": "none (silent; original soundtrack licence is no-derivatives)"},
+  "total_s": 25.6,
+  "shots": [
+    {
+      "id": "S1", "src_in": 278.0, "src_out": 288.5,
+      "keys": [
+        {"t": 278.0, "cx": 820, "scale": 1.0, "ease": "linear"},
+        {"t": 283.0, "cx": 820, "scale": 1.0, "ease": "inOut"},
+        {"t": 287.5, "cx": 720, "scale": 1.0, "ease": "linear"},
+        {"t": 288.5, "cx": 720, "scale": 1.0, "ease": "linear"}
+      ],
+      "caption": "He hasn't noticed yet.",
+      "caption_y": 0.62,
+      "caption_window_src": [278.0, 282.5],
+      "why": "Hold while the caption is read (Thom's head drifts 760-825 px, stays inside 595-1045); from 283.0 follow his drift left so his face keeps looking room right and the robot enters the right edge; cut at 288.5 before the back of his head leaves the window; head trimmed 2 s so the robot arrives 5.5 s in."
+    },
+    {
+      "id": "S2", "src_in": 299.0, "src_out": 300.85,
+      "keys": [
+        {"t": 299.0, "cx": 1035, "scale": 1.0, "ease": "linear"},
+        {"t": 300.85, "cx": 1035, "scale": 1.0, "ease": "linear"}
+      ],
+      "caption": "It is right behind him.",
+      "caption_y": 0.74,
+      "why": "Hold on the robot face (eyes at about 810-1260 px); S1 only showed an edge of the robot, this cut gives the full face as new information."
+    },
+    {
+      "id": "S3", "src_in": 300.9, "src_out": 302.7,
+      "keys": [
+        {"t": 300.9, "cx": 825, "scale": 1.0, "ease": "linear"},
+        {"t": 302.7, "cx": 825, "scale": 1.0, "ease": "linear"}
+      ],
+      "caption": "Face to face.",
+      "caption_y": 0.70,
+      "why": "Hold at 600-1050 px: Thom whole (585-786 px) on the left, the robot fills the right 45% where he looks; the only frame that relates man and machine."
+    },
+    {
+      "id": "S4", "src_in": 310.6, "src_out": 312.35,
+      "keys": [
+        {"t": 310.6, "cx": 680, "scale": 1.0, "ease": "linear"},
+        {"t": 312.35, "cx": 680, "scale": 1.0, "ease": "linear"}
+      ],
+      "caption": "Later: the real conversation.",
+      "caption_y": 0.82,
+      "why": "Hold on Thom's face (465-900 px across the shot); Celia's head starts at 1200 px, so the over-the-shoulder cannot fit in 450 px - it becomes a clean single; caption marks the time jump."
+    },
+    {
+      "id": "S5", "src_in": 312.4, "src_out": 315.35,
+      "keys": [
+        {"t": 312.4, "cx": 1400, "scale": 1.0, "ease": "linear"},
+        {"t": 315.35, "cx": 1400, "scale": 1.0, "ease": "linear"}
+      ],
+      "caption": "\"We have to follow our passions\"",
+      "caption_y": 0.76,
+      "why": "The holographic line is 780 px wide and can never fit 450 px, so frame the houses and the text centre and let the source rack focus reveal it; our caption restores the full line below the hologram (hologram sits at 0.26-0.56)."
+    },
+    {
+      "id": "S6", "src_in": 315.4, "src_out": 319.95,
+      "keys": [
+        {"t": 315.4, "cx": 800, "scale": 1.0, "ease": "linear"},
+        {"t": 319.95, "cx": 800, "scale": 1.0, "ease": "linear"}
+      ],
+      "caption": "He waits for her answer.",
+      "caption_y": 0.10,
+      "why": "The face is 690 px wide, wider than the crop; keep eyes, nose and mouth (645-1020 px) and lose the left ear/hair; held full length because it is the emotional peak and the face does the work."
+    },
+    {
+      "id": "S7", "src_in": 320.0, "src_out": 322.2,
+      "keys": [
+        {"t": 320.0, "cx": 1160, "scale": 1.0, "ease": "linear"},
+        {"t": 322.2, "cx": 1160, "scale": 1.0, "ease": "linear"}
+      ],
+      "caption": "She isn't convinced.",
+      "caption_y": 0.82,
+      "why": "Hold at 935-1385 px: full face (features 990-1320 px) with the small space on the left where she looks (toward Thom), right ear trimmed; eyeline matches S6 (he looks right, she looks left)."
+    }
+  ],
+  "punch_in": "none - every key is scale 1.0; the source has 0 px headroom (800 px tall = output height), so any scale > 1.0 upscales."
+}
