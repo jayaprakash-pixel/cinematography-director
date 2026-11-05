@@ -1,6 +1,6 @@
 # Visual storytelling (D01)
 
-The camera decides what the viewer knows, feels and remembers, and when. Every technique in this skill serves one of those three jobs.
+The camera decides what the viewer knows, feels and remembers, and when. Every technique in this skill serves one of those three jobs. Cinematography comes from the Greek for "writing with motion" (S35); like a painter who must tell the whole story in one frame, nothing in the frame should be accidental - every element, colour and shadow has a purpose (S35).
 
 ## The information ledger
 For each beat write two columns: KNOWS / MUST NOT KNOW YET.

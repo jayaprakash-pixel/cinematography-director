@@ -8,7 +8,7 @@ Combine with a genre mode (M06 for tech explainers, M05 for story, M07 for produ
 2. One idea per shot; the image is readable at phone size in under 1 s.
 3. Fast progression: each new sentence or idea earns a new picture or a new framing.
 4. Narration sync: cuts and moves land on word starts (measured times).
-5. Vertical framing: centre and vertical stacking; faces and text in the central safe area; house rulebook values win.
+5. Vertical framing: centre and vertical stacking; faces and text in the central safe area; house rulebook values win. YouTube Help (checked 2026-11-05) states Shorts uploads up to 3 minutes with a square or vertical ratio and publishes no overlay safe-zone numbers - third-party margins are conventions (S43, S26).
 6. Retention: a visible change every 2-4 s (cut, move, reveal, graphic) - but the camera holds while text is read.
 7. Loop or callback ending: the last frame echoes the first.
 

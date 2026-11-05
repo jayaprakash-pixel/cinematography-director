@@ -7,7 +7,7 @@
 """
 import json, os, re, sys
 
-MOTIVATIONS = {"FOLLOW", "REVEAL", "APPROACH", "WITHDRAW", "RELATE", "ORIENT", "SUBJECTIVE", "RHYTHM"}
+MOTIVATIONS = {"FOLLOW", "REVEAL", "APPROACH", "WITHDRAW", "RELATE", "ORIENT", "SUBJECTIVE", "RHYTHM", "EXPRESSIVE"}
 MOVES = {"static", "pan", "tilt", "push_in", "pull_out", "dolly_in", "dolly_out", "track", "truck", "pedestal",
          "crane", "jib", "orbit", "arc", "handheld", "gimbal", "steadicam", "whip_pan", "roll", "parallax",
          "zoom_in", "zoom_out", "crash_zoom", "snap_zoom", "dolly_zoom", "punch_in", "zoom_reframe"}
@@ -83,6 +83,10 @@ def check_timeline(tl):
                         err.append(f"{tag}: camera moves during hold_for_text {h} (camera must hold while text is read)")
             if not e.get("ease"):
                 warn.append(f"{tag}: no ease given")
+            if e.get("motivation") == "EXPRESSIVE":
+                warn.append(f"{tag}: EXPRESSIVE = a deliberately visible camera; confirm the viewer should notice it")
+                if "M06" in modes:
+                    err.append(f"{tag}: EXPRESSIVE moves are not allowed in educational mode M06")
             if mv == "dolly_zoom":
                 dz += 1
             if adapter in UNSUPPORTED and mv in UNSUPPORTED[adapter] and not e.get("fallback"):
@@ -193,6 +197,9 @@ def selftest():
     ed = json.loads(json.dumps(good)); ed["adapter"] = "edit_resolve"
     e, _ = check_timeline(ed)
     assert any("not executable" in x for x in e) and any("focus cannot" in x for x in e), e
+    ex = json.loads(json.dumps(good)); ex["mode"] = ["M06"]; ex["shots"][1]["camera"][0]["motivation"] = "EXPRESSIVE"
+    e, w = check_timeline(ex)
+    assert any("not allowed in educational" in x for x in e) and any("deliberately visible" in x for x in w), (e, w)
     print("selftest ok")
 
 

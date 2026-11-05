@@ -3,7 +3,7 @@
 Shots are judged in sequence, not alone. When a cut must sacrifice something, keep the higher priority (Murch, S21): **emotion > story > rhythm > eye trace > 2D screen plane > 3D space.**
 
 ## Shot duration
-A shot lasts as long as the viewer needs to take in what is new, plus the emotional hold - no more.
+A shot lasts as long as the viewer needs to take in what is new, plus the emotional hold - no more. Editors call the time needed to register a shot its **content curve**: a simple image (a smile) has a short curve; several planes of action or text to read have a long one (S19).
 - New information to read (text, diagram, object): enough time to read it at least once (about 3 words per second for on-screen text is a craft convention; test it).
 - Emotional beats: hold after the peak (a held shot says "this matters").
 - Repetition or familiar images: shorter.
@@ -40,7 +40,7 @@ Use when: vlogs, Shorts presenters (removing pauses), a deliberate style. Avoid 
 
 ### Cross-cutting / parallel editing
 What: alternate between two actions in different places. Effect: suspense (will they meet?), comparison.
-Use when: two lines of action converge or contrast. Avoid when: the viewer cannot tell the places apart (give each its own colour/geography). Source: craft convention.
+Use when: two lines of action converge or contrast; cut in a regular, rhythmic pattern to build dread (S19: Way Down East). Fluent audiences can be surprised by revealing a third line (S19). Avoid when: the viewer cannot tell the places apart (give each its own colour/geography). Source: S19.
 
 ### Montage
 What: a sequence of short shots that compresses time or builds an idea. Effect: progress, accumulation, emotion.
@@ -65,6 +65,22 @@ Use when: mark time jumps (light change, a dissolve, a title, a costume change).
 ### Visual callbacks
 What: a later shot echoes an earlier one with a change. Effect: meaning by comparison, closure.
 Use when: endings; the motif register lists them. Avoid when: a callback with no change (it only repeats). Source: craft convention.
+
+### Kuleshov effect (juxtaposition)
+What: the same shot means different things after different shots - viewers projected hunger, grief and desire onto one unchanged face (S19). Effect: meaning comes from the pair, not the single shot.
+Use when: a reaction must read a certain way (cut it after the cause); in AI or archive work, a neutral face plus the right cutaway carries the emotion. Avoid when: the juxtaposition implies something untrue in documentary. Source: S19.
+
+### Master and coverage strategy
+What: shoot the whole scene wide (master), then again closer from several angles (coverage); build the scene from both (S19). Effect: freedom in the edit; geography stays clear.
+Use when: dialogue and blocking-heavy scenes. Cut back to the master to reset the tone or the geography after a clash; move to close coverage when the scene reaches its thematic question (S19, Whiplash). Avoid when: a planned long take or a one-shot idea carries the scene. Source: S19.
+
+### Ellipsis
+What: a cut that removes time the story does not need (car arrives -> she is already at the door) (S19). Effect: pace without confusion.
+Use when: always - show only the moments that carry story. Avoid when: the removed time is itself the point (waiting, effort). Source: S19.
+
+### Discontinuity editing
+What: cuts that break continuity on purpose: jump cuts, reversed screen direction, fragmented order (S19: Breathless, The Limey). Effect: a fractured mind, chaos, a comment on watching.
+Use when: the theme is fracture, memory or disorientation, and the choice is consistent. Avoid when: it is an accident of missing coverage. Source: S19.
 
 ## Sequence patterns (choose, do not repeat blindly)
 - Wide -> medium -> close (orientation then emotion) - classic, use for new scenes.

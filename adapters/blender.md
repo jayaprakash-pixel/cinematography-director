@@ -11,7 +11,7 @@ Blender's camera has real-world controls (S02): focal length (mm or field of vie
 | rack focus | full | keyframe `dof.focus_distance`, or animate the Focus Object empty |
 | shallow / deep DOF | full | `dof.use_dof`, `aperture_fstop` |
 | handheld | simulated | Noise modifier on rotation F-curves (small strength), never on every axis at once |
-| motion blur | full | Render > Motion Blur |
+| motion blur | full | Render > Motion Blur; shutter 0.5 frames = 180° (S37 for the look) |
 | lens distortion / breathing / flare | simulated | compositor (Lens Distortion node, Glare) |
 | orthographic | full | `type = 'ORTHO'` (diagrams, isometric explainers) |
 

@@ -28,7 +28,7 @@
         "camera_xy": {"type": "array", "items": {"type": "number"}}, "cross": {"type": "boolean"},
         "camera": {"type": "array", "items": {"type": "object", "required": ["move"],
           "properties": {"move": {"type": "string"}, "t0": {"type": "number"}, "t1": {"type": "number"}, "trigger": {"type": "string"},
-            "amount": {}, "ease": {"type": "string"}, "motivation": {"enum": ["FOLLOW", "REVEAL", "APPROACH", "WITHDRAW", "RELATE", "ORIENT", "SUBJECTIVE", "RHYTHM"]},
+            "amount": {}, "ease": {"type": "string"}, "motivation": {"enum": ["FOLLOW", "REVEAL", "APPROACH", "WITHDRAW", "RELATE", "ORIENT", "SUBJECTIVE", "RHYTHM", "EXPRESSIVE"]},
             "reason": {"type": "string"}, "parallax": {"type": "boolean"}, "fallback": {"type": "string"}}}},
         "focus": {"type": "array", "items": {"type": "object", "required": ["from", "to", "reason"],
           "properties": {"t0": {"type": "number"}, "t1": {"type": "number"}, "trigger": {"type": "string"}, "from": {"type": "string"}, "to": {"type": "string"},

@@ -53,7 +53,7 @@ Short paths: one scene -> `workflows/scene_to_shotlist.md`; Blender keys -> `wor
 `camera/shots_and_angles.md` (size, angle, height) · `camera/movement_and_zoom.md` (motivation gate, zoom-or-dolly tree, static) · `camera/lens_language.md` (distance first, focal lengths) · `focus/focus_and_dof.md` (focus track, rack, DOF budget) · `composition/frame_design.md` (hierarchy, space, depth, 9:16) · `lighting/lighting_and_atmosphere.md` · `colour/colour_direction.md` · `direction/blocking_and_continuity.md` (geography, 180/30) · `direction/sequencing_and_rhythm.md` (cuts, duration, pacing) · `references/cinematographers.md`, `references/film_analysis.md` (examples with sources) · `references/research_sources.md` (source register).
 
 ## The 18 principles (non-negotiable)
-1. No camera movement without a reason from the motivation list.
+1. No camera movement without a reason from the motivation list (FOLLOW, REVEAL, APPROACH, WITHDRAW, RELATE, ORIENT, SUBJECTIVE, RHYTHM; EXPRESSIVE only when the camera is meant to be noticed).
 2. No zoom to "add energy". A zoom is the act of looking; a dolly is entering space.
 3. Shallow depth of field is budgeted, not default.
 4. The rule of thirds is one option, chosen for a meaning.

@@ -65,7 +65,7 @@ Use when: a relationship changes; staging can show the change (closer, apart, on
 
 ### Profile shot
 What: the subject seen from the side. Effect: observation, determination, travel, or confrontation (two profiles facing).
-Use when: a person moves through space; two people face off. Avoid when: you need the eyes. Source: S03 (angle list).
+Use when: a person moves through space; two people face off; a character should feel a little mysterious (S19). Avoid when: you need the eyes. Source: S03, S19.
 
 ### Insert shot
 What: a close view of an object or action within the scene. Effect: information the viewer must not miss.
@@ -101,11 +101,11 @@ Use when: presenters, interviews, peers. Avoid when: a power relation must be fe
 
 ### Low angle
 What: lens below the eyes, looking up. Effect: power, threat, heroism, awe; also instability if extreme.
-Use when: the story gives the subject power at this moment. Avoid when: on a narrator meant to be a friend; to look "cool". Source: S03.
+Use when: the story gives the subject power at this moment. Avoid when: on a narrator meant to be a friend; to look "cool". Source: S03, S41, S42.
 
 ### High angle
 What: lens above, looking down. Effect: vulnerability, smallness, overview.
-Use when: a character loses control; to show a layout. Avoid when: the subject must look strong. Source: S03.
+Use when: a character loses control; to show a layout. Avoid when: the subject must look strong. Source: S03, S41 (small, weak, sometimes lonely).
 
 ### Bird's-eye / overhead / top-down
 What: straight down. Effect: pattern, map, process, fate; removes depth.
@@ -117,7 +117,7 @@ Use when: footsteps, a falling object, monumental scale. Avoid when: used to dec
 
 ### Dutch angle (canted)
 What: the horizon is tilted. Effect: unease, a world that is wrong.
-Use when: the character's world is disordered (drugs, madness, crisis) - sparingly. Avoid when: for "energy"; in explainers. Source: S03.
+Use when: the character's world is disordered (drugs, madness, crisis) - sparingly. Avoid when: for "energy"; in explainers. Source: S03, S41.
 
 ### Frontal
 What: the subject faces the lens. Effect: address, confrontation, symmetry, authority.

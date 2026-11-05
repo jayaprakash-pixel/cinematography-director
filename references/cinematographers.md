@@ -20,6 +20,9 @@ Rule: cite only what a source says. A cinematographer is not an "aesthetic" to c
 | Wally Pfister | Inception (2010) | practical rotating set; a camera fixed to the set | impossible physics made physically real | S14 |
 | Christopher Doyle | In the Mood for Love (2000) | camera in real, cramped locations, often no room for a tripod | confinement of the characters' lives | S15 |
 | Christopher Doyle | In the Mood for Love | camera movement built on the music | rhythm of longing | S15 |
+| Christopher Doyle | In the Mood for Love | frames within frames (doors, windows, corridors) | the lovers are always watched and confined | S19 |
+| Caleb Deschanel | The Natural (1984) | a sustained light code: golden sun = purity, blue moonlight = temptation, flashbulbs = fame, enveloping non-directional light at the triumph | light carries the moral story | S35 |
+| Russell Metty (dir. Orson Welles) | Touch of Evil (1958) | opening long take through the town with crane and tracking moves | builds suspense and geography with no cut | S19 |
 
 ## How to use a precedent
 "Push-in on the realisation, single lens family" -> cite the principle, not the film's look: "consistent perspective, one lens change only at the turn (precedent: 1917, 35 mm in the tunnels, S09)".

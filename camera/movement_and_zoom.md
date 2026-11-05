@@ -7,6 +7,7 @@
 
 ## 1. The motivation gate (run on every move)
 A move must name ONE motivation. No motivation -> static.
+Why: an unmotivated move makes the camera visible and reminds the viewer they are watching a film (S19). EXPRESSIVE is the only motivation that wants exactly that; use it rarely, say what the viewer should feel, and never in explainers.
 | Motivation | Meaning | Typical moves |
 |---|---|---|
 | FOLLOW | the subject moves; we keep it | track, truck, pan, tilt, gimbal/Steadicam follow |
@@ -17,6 +18,7 @@ A move must name ONE motivation. No motivation -> static.
 | ORIENT | establish geography | crane, jib, pan across, drone |
 | SUBJECTIVE | we are the character | handheld POV, walk-in |
 | RHYTHM | music or performance sync | moves cut or timed to the beat (M08) |
+| EXPRESSIVE | the camera is MEANT to be noticed: a character's psychology, a dream, a comment on watching | lateral tracking past a still scene, double dolly (actor rides with the camera), roll |
 
 ## 2. When static is better
 Hold the camera still when: text or a diagram is on screen (house rule S29); dense information is spoken; a strong performance carries the beat; the composition itself is the statement; the previous shot moved (contrast); the scene is about stillness, control or authority. A static frame with movement inside it (a subject walking through) is often stronger than a moving camera.
@@ -131,6 +133,15 @@ Use when: one perceptual or psychological shift in the whole video. Avoid when: 
 ### Zoom and reframe
 What: a zoom combined with a pan/tilt to keep composition balanced. Effect: an observing operator; live, unscripted feel.
 Use when: documentary, events, sports, music performance. Avoid when: a controlled, designed look is needed. Source: craft convention.
+
+### Long take (oner)
+What: a scene or sequence played in one continuous shot, with actors and camera choreographed so the story moves on without a cut. Effect: immersion, real time, tension that no cut releases; the viewer's attention is directed by blocking, movement and focus instead of editing.
+Use when: real time matters (urgency, a journey - 1917, S09), or a world must be introduced in one breath (Touch of Evil's opening, Goodfellas' nightclub walk, S19). Avoid when: the coverage needed for performance or pacing cannot be planned; a long take for bravura alone.
+Execution: physical - rehearsal, stabilised rigs, focus marks; virtual - one continuous camera path; AI - not possible beyond clip length, fake with hidden cuts. Source: S09, S19.
+
+### Subtle reframe
+What: a slight pan or a minute push inside a shot (a few percent). Effect: a shift of emphasis the viewer feels but rarely notices (S19: a tracking shot that slowly reframes onto one child changes whose story it is).
+Use when: the emphasis moves from one subject to another inside a shot. Avoid when: the change is so small it reads as drift. Source: S19.
 
 ## Common mistakes
 - Calling a zoom a "dolly" in instructions (or the reverse). Name the one you mean.

@@ -67,6 +67,14 @@ Use when: always: no limbs cut at joints, no bright objects pulling the eye to t
 What: the composition changes inside the shot (subject moves, camera moves, focus changes). Effect: the frame tells a small story.
 Use when: write the shot as START frame -> END frame with subject positions for both. Avoid when: the end frame is not designed. Source: craft convention.
 
+### Aspect ratio as the first frame decision
+What: the frame's width to height (1.33 academy, 1.78 HD, 2.35-2.39 scope, 9:16 vertical) chosen before composing (S19). Effect: wide frames hold landscapes and groups and isolate a single face; narrow frames favour single figures and vertical shapes.
+Use when: decide once per video (or per strand, as Oppenheimer's formats do - S13). Avoid when: mixing ratios without a story reason. Source: S19, S13.
+
+### Relative size and placement as power
+What: within one frame, the larger or higher figure dominates; equal sizes on the thirds read as equals (S19). Hitchcock's often-quoted rule (listed in Brown's contents, S36): the size of an object in the frame should match its importance to the story at that moment. Effect: power relations without dialogue.
+Use when: status changes inside a scene; key objects (a clue gets size). Avoid when: accidental size differences that suggest a power relation you do not mean. Source: S19, S36.
+
 ## Vertical 9:16 frame
 - Use the user's house values when a rulebook exists (S29: caption band, presenter zone, content at screen y <= 1320 in split scenes, camera scale <= 1.0-1.05 when content touches the margins).
 - Without house values: keep faces, text and key details inside the central 4:5 area and leave clear space at the bottom for platform UI (third-party guides disagree on exact margins - S26; label them as conventions).

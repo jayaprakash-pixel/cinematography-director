@@ -2,13 +2,15 @@
 
 Light shows the subject, separates it from the background, creates depth and sets mood. Every source should be motivated (a window, lamp, screen, fire, the sun) unless the style is openly theatrical.
 
+Decide four properties for every set-up (S19): **source** (natural or artificial, and its intensity), **quality** (hard or soft - read it in the shadow edge), **direction** (where it comes from) and **colour** (temperature). Light also **forms space**: a pool of light makes one place and the darkness around it another, and what is unimportant can simply fall into shadow (S35).
+
 ## Contrast ratio (stop arithmetic)
-One stop = double the light. Key:fill 1 stop apart = 2:1, 2 stops = 4:1, 3 stops = 8:1 (S32). Craft convention for the look: about 2:1 open/high-key; about 4:1 natural drama; 8:1 and above hard drama, noir, horror. Write the ratio when the look depends on it; treat the look labels as conventions.
+One stop = double the light. Key:fill 1 stop apart = 2:1, 2 stops = 4:1, 3 stops = 8:1; measure key and fill separately with an incident meter (S39, S32). Craft convention for the look: about 2:1 open/high-key; about 4:1 natural drama; 8:1 and above hard drama, noir, horror. Write the ratio when the look depends on it; treat the look labels as conventions.
 
 ## Techniques
 
 ### Three-point lighting
-What: key (main), fill (softens shadows), back light (separates from background) (S27). Effect: a clear, modelled subject.
+What: key (main, about 45° from the camera), fill (about 45° on the other side, dimmer), back/hair light (behind, separates from the background) (S39, S27). Effect: a clear, modelled subject.
 Use when: interviews, presenters, products; a base to break from. Avoid when: it makes a natural or dramatic scene look like a studio. Source: S27.
 
 ### Key light
@@ -25,7 +27,7 @@ Use when: dark backgrounds, silhouettes, product edges. Avoid when: unmotivated 
 
 ### Practical lighting
 What: lights visible in frame (lamps, screens, candles). Effect: realism, motivation, warmth or loneliness.
-Use when: night interiors; tech scenes lit by screens. Show "just enough, not too much" (S09). Avoid when: practicals overexpose and pull attention. Source: S09.
+Use when: night interiors; tech scenes lit by screens. Show "just enough, not too much" (S09). Practicals are often props that only *motivate* a stronger off-screen light (S19). Avoid when: practicals overexpose and pull attention. Source: S09, S19.
 
 ### Natural and available light
 What: sun, sky, windows, fire. Effect: truth and texture; timing by weather and hour.
@@ -56,7 +58,7 @@ What: light shafts visible in haze, smoke or dust. Effect: atmosphere, depth, th
 Use when: the shafts mean something (a holy place, a dusty archive, a smoky server room under stress). Avoid when: added "for cinema" to every scene. Execution: physical - haze machine; Blender - volume scatter in the world or a cube; AI - "volumetric light, haze". Source: craft convention.
 
 ### Hard and soft light
-What: hard = small/far source, crisp shadows; soft = large/near source, soft shadows. Effect: hard = drama, heat, truth; soft = gentleness, beauty, calm.
+What: hardness depends on the source's apparent size as seen from the subject: small or distant = hard, crisp shadow edge; large and close, bounced or diffused = soft, gradual edge (S19, S40; geometry). Hard light can be softened, never the reverse (S40). Effect: hard = drama, heat, truth; soft = gentleness, beauty, calm; soft is the documentary-interview norm (S40).
 Use when: choose by mood and by the source the story shows. Avoid when: mixing both on one face without a reason. Source: craft convention.
 
 ### Light falloff
@@ -64,12 +66,20 @@ What: light gets weaker with distance from the source (inverse-square law for a 
 Use when: control the background brightness by source distance. Avoid when: -. Source: physics.
 
 ### Colour temperature
-What: warm (tungsten, fire, low sun) vs cool (shade, sky, many screens). Effect: warm = home, nostalgia, safety, danger of fire; cool = night, technology, distance, clinical. Meaning is set inside the video (`colour/colour_direction.md`).
+What: warm (tungsten about 3200 K, candle about 2000 K, low sun) vs cool (daylight about 5600 K, shade, sky, many screens) - lower kelvin = warmer (S19). Effect: warm = home, nostalgia, safety, danger of fire; cool = night, technology, distance, clinical. Meaning is set inside the video (`colour/colour_direction.md`).
 Use when: a warm-cool contrast separates two worlds or two times. Avoid when: mixed temperatures on a face with no motivation. Source: craft convention.
 
 ### Negative fill and shadow control
 What: black surfaces or flags that remove light to deepen shadows. Effect: shape and drama in soft light.
 Use when: overcast or bright rooms that make faces flat. Avoid when: the look must be open. Source: craft convention.
+
+### Light as a visual image system
+What: a code of light kept for the whole film - each quality of light stands for one idea and returns every time that idea does (S35: in The Natural, golden backlit sun = purity, cold blue moonlight = temptation, newspaper flashbulbs = fame, a fading flashbulb in slow motion = his power dimming). Effect: meaning builds without dialogue; the climax can pay the code off (light everywhere, non-directional, at the triumph).
+Use when: a story with clear opposing forces or a character arc. Write the code in the colour script (`colour/colour_direction.md`). Avoid when: the code is inconsistent - one exception breaks the system. Source: S35.
+
+### Half-light, silhouette and other moral lighting
+What: a face half in light and half in shadow at the moment of indecision; backlight with no fill = silhouette (a situation, not one person's thoughts; anonymity, ignorance); the obvious choice is not the only one - Deschanel hid a villain's eyes with glare on his glasses instead of shadow (S35). Effect: inner conflict made visible.
+Use when: a decision, a lie, a split loyalty; a hidden identity (see/hide list). Avoid when: used as a generic "moody" look on every face. Source: S35, S19 (low-key = little or no key light, deep shadows, mystery).
 
 ## Lighting as an arc
 Plan contrast like the emotion timeline: low contrast at calm, rising with tension, release at resolution. Keep light direction continuous within a scene (`direction/blocking_and_continuity.md`).

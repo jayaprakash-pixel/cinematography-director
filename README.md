@@ -139,7 +139,7 @@ modes/              m01_shorts ... m08_documentary_music
 adapters/           physical_camera, blender, motion_graphics_2d, ai_video (capability matrix), edit_resolve
 workflows/          script_to_visuals, scene_to_shotlist, animation, personal video, final audit
 templates/          shot blueprint, timeline.schema.json, storyboard, report
-references/         cinematographers, film analysis, research sources (34 registered, with reliability)
+references/         cinematographers, film analysis, research sources (43 registered, with reliability)
 scripts/cdcheck.py  validator + linter + self-test
 ```
 
@@ -151,7 +151,7 @@ Claude reads `SKILL.md`. Then it reads only the mode, the adapter and the domain
 - Claude cannot watch video in real time. It reads frames, contact sheets and timings. Your eyes approve the motion.
 - AI video tools change quickly. The capability matrix carries a "checked" date (2026-11-05). Check the tool's current documentation before a production run.
 - Some craft numbers (lighting ratios, vertical safe areas) are conventions, and the files label them as conventions.
-- Research gaps are listed honestly in [`references/research_sources.md`](references/research_sources.md). For example, Blain Brown's *Cinematography: Theory and Practice* is registered but was not read.
+- Sources: 43 registered with reliability ratings, including Blain Brown's chapter "Lighting as Storytelling" (the publisher's sample chapter), the full Cinematography and Editing chapters of the open textbook *Moving Pictures*, RED, ACMI and the American Society of Cinematographers. The full text of Brown's book is paid and was not read. The remaining gaps are listed in [`references/research_sources.md`](references/research_sources.md).
 
 ## Licence
 

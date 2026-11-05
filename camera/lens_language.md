@@ -6,7 +6,7 @@ Procedure: 1) choose the distance for the relationship (presence = near, observa
 "Telephoto compression" is a far camera seen through a narrow crop; "wide-angle distortion" is a near camera seen through a wide crop.
 
 ## Format and equivalence
-Focal lengths below are **full-frame (36x24 mm) equivalents**. Other formats: equivalent = focal length x crop factor (S35: about 1.4-1.5x, so 35 mm on Super 35 ≈ 50 mm full-frame field of view) (S34). Larger formats give less depth of field at the same framing and stop (S09: Alexa Mini LF "a little less depth").
+Focal lengths below are **full-frame (36x24 mm) equivalents**. Other formats: f_equivalent = f x crop factor (S38, S34; Super 35 is about 1.4-1.5x, so 35 mm on Super 35 ≈ 50 mm full-frame view). A smaller sensor at the same framing means a farther camera or a wider lens, so depth of field INCREASES (S38). Convention: below about 35 mm (full-frame) = wide, above about 70 mm = telephoto (S19). Larger formats give less depth of field at the same framing and stop (S09: Alexa Mini LF "a little less depth").
 Virtual cameras: Blender focal length is relative to its sensor width (default 36 mm = full-frame-like); set sensor size to match a real camera when matching plates (S02).
 
 ## Focal length effects (at the distance the size implies)
@@ -39,7 +39,7 @@ Use when: watching someone who does not know; crowds as a mass; heat and distanc
 
 ### Prime vs zoom lens
 What: fixed focal length vs variable. Effect: primes - consistent perspective, often faster aperture; zooms - flexibility, observation style.
-Use when: primes for designed fiction and one-lens identity (S09: 40 mm almost throughout 1917); zooms for documentary, events, zoom moves. Avoid when: a zoom used as a lazy dolly. Source: S09.
+Use when: primes for designed fiction and one-lens identity (S09: 40 mm almost throughout 1917); a prime forces a deliberate choice of angle of view (S19); zooms for documentary, events, zoom moves. Avoid when: a zoom used as a lazy dolly. Source: S09, S19.
 
 ### Anamorphic
 What: lenses that squeeze a wide image onto the sensor; oval bokeh, horizontal flares, 2.39:1. Effect: epic, classic cinema, dreamlike falloff.
@@ -60,6 +60,11 @@ Use when: accept it as texture, or hide it in a move. Avoid when: precise rack f
 ### Lens character
 What: contrast, flare, sharpness falloff, vignetting, bokeh shape. Effect: era and texture (vintage soft vs modern clinical).
 Use when: matching a story world (Dune's custom approach to world identity - S11). Avoid when: mixing characters within a scene. Source: S11; craft convention.
+
+### Shutter angle and frame rate (motion rendering)
+What: shutter angle = exposure time per frame as a share of 360°; at 24 fps, 180° ≈ 1/48 s, the long-standing cinema norm (S37). Higher frame rates (48-120 fps) remove most motion blur (S19).
+Effect: 180° = the familiar cinematic motion blur; narrow (45-90°) = crisp, staccato, urgent or newsreel-like; wide (270-360°) = smeared, soft, dreamy (S37); high frame rate = hyper-real, "video" clarity (S19).
+Use when: choose per sequence for the feeling of motion - narrow for chaos and combat, wide for dreams or low light. Avoid when: changing it shot to shot inside one scene without a reason. Execution: physical - shutter angle setting; Blender - Render > Motion Blur, shutter in frames (0.5 = 180°); 2D - directional blur amount; AI - describe "crisp, stuttering motion" or "smooth motion blur" (hint only). Source: S37, S19.
 
 ## Physical vs virtual vs AI lens
 | | Physical | Virtual (Blender) | AI video |

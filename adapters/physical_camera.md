@@ -20,7 +20,7 @@ Everything is possible in principle; the limits are time, money, space, safety a
 | handheld | subjective, documentary | shoulder rig for long takes |
 
 ## Technical checks (label TECHNICAL)
-- Frame rate and shutter: 24/25 fps at 180° shutter; fast pans judder - keep pan speed low or add motion blur intent.
+- Frame rate and shutter: 24/25 fps at 180° shutter (about 1/48 s at 24 fps, S37); fast pans judder - keep pan speed low. Narrow shutter for staccato action, wide for dreamy smear (S37).
 - Focal length equivalence for the actual sensor (crop factor, S34).
 - Focus breathing on close racks (S23).
 - Exposure for the chosen stop: light to the stop, use ND outdoors for shallow DOF.
