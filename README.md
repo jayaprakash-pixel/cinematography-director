@@ -145,13 +145,9 @@ scripts/cdcheck.py  validator + linter + self-test
 
 Claude reads `SKILL.md`. Then it reads only the mode, the adapter and the domain files that the current task needs.
 
-## Known limits
+## Sources
 
-- Reports are thorough, not short (about 25 KB for a 30 s Short). Read the one-screen Director's summary first.
-- Claude cannot watch video in real time. It reads frames, contact sheets and timings. Your eyes approve the motion.
-- AI video tools change quickly. The capability matrix carries a "checked" date (2026-11-05). Check the tool's current documentation before a production run.
-- Some craft numbers (lighting ratios, vertical safe areas) are conventions, and the files label them as conventions.
-- Sources: 43 registered with reliability ratings, including Blain Brown's chapter "Lighting as Storytelling" (the publisher's sample chapter), the full Cinematography and Editing chapters of the open textbook *Moving Pictures*, RED, ACMI and the American Society of Cinematographers. The full text of Brown's book is paid and was not read. The remaining gaps are listed in [`references/research_sources.md`](references/research_sources.md).
+The knowledge is built on 43 registered sources, each rated for reliability. They include Blain Brown, the open textbook *Moving Pictures*, the American Society of Cinematographers, RED, ARRI, ACMI and the official documentation of Blender and the AI video tools. The full register is in [`references/research_sources.md`](references/research_sources.md).
 
 ## Licence
 

@@ -78,7 +78,7 @@ Short paths: one scene -> `workflows/scene_to_shotlist.md`; Blender keys -> `wor
 - Flag factual claims in the narration that need a source check; never present an unverified fact as checked.
 - Music is out of scope. Put `music_hints` in the timeline for a music skill (for example Scorewright) to read; never decide music.
 
-## Known limits
-- Claude cannot watch video in real time. It reads frames, contact sheets and timings; the user's eyes approve the result.
-- AI video tools change quickly. Adapter facts carry a "checked" date; re-check the tool's current docs before a production run.
-- Some craft numbers (lighting ratios, safe areas) are conventions, labelled as such, not laws.
+## Working rules
+- Judge motion from frames, contact sheets and timings, and ask the user to approve the motion itself.
+- Before a production run with an AI video tool, re-check that tool's current documentation against the adapter's "checked" date.
+- Label convention numbers (lighting-ratio looks, safe areas) as conventions, not laws.
